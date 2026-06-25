@@ -1,4 +1,4 @@
-![imagen de banner](PICTURES\ecommerce-peru.jpeg)
+![imagen de banner](pictures\e-commerce_imagen.png)
 # Proyecto SQL: Análisis de Ventas de E-commerce
 Proyecto en vivo
 ## Proyecto Básico - Intermedio SQL

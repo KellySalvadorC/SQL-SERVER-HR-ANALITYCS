@@ -1,4 +1,4 @@
-![imagen de banner](pictures/ecommerce.jpg)
+![imagen de banner](pictures/baneer%20vertical.png)
 # Proyecto SQL: Análisis de Ventas de E-commerce
 Proyecto
 ## Resumen

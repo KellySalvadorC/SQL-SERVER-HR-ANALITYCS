@@ -65,3 +65,30 @@ WITH (
 );
 
 select * from products_dataset
+
+---------------------------------
+-- CARGA CLIENTES
+---------------------------------
+IF OBJECT_ID('customers_dataset', 'U') IS NOT NULL
+    DROP TABLE customers_dataset;
+
+CREATE TABLE customers_dataset (
+    customer_id VARCHAR(36) NOT NULL PRIMARY KEY,
+    customer_unique_id VARCHAR(36) NOT NULL,
+    customer_zip_code_prefix INT NULL,
+    customer_city VARCHAR(100) NULL,
+    customer_state VARCHAR(2) NULL
+);
+
+BULK INSERT customers_dataset
+FROM 'C:\Users\kelly\OneDrive\Documentos\SQL SERVER DATA ACADEMY\PROYECTO SQL\SQL-SERVER-HR-ANALITYCS\Data\customers_dataset.csv'
+WITH (
+    FORMAT = 'CSV',
+    FIRSTROW = 2,
+    FIELDQUOTE = '"',
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '0x0a',
+    CODEPAGE = '65001'
+);
+
+select * from customers_dataset

@@ -10,9 +10,9 @@ USE BD_Ecommerce
 ---------------------------------
 
 IF OBJECT_ID('orders_dataset', 'U') IS NOT NULL
-    DROP TABLE dbo.orders_dataset;
+    DROP TABLE orders_dataset;
 
-CREATE TABLE dbo.orders_dataset (
+CREATE TABLE orders_dataset (
   order_id VARCHAR(36) NOT NULL PRIMARY KEY,  -- ids hex (~32 chars), se deja margen
   customer_id VARCHAR(36) NOT NULL,           -- ids hex
   order_status VARCHAR(20) NOT NULL,         -- 'delivered','invoiced', etc.
@@ -25,7 +25,7 @@ CREATE TABLE dbo.orders_dataset (
 
 --IMPORTANDO DATOS DE CSV
 BULK INSERT orders_dataset
-FROM 'C:\Users\kelly\OneDrive\Documentos\SQL SERVER DATA ACADEMY\PROYECTO SQL\SQL-SERVER-HR-ANALITYCS\Data\dbo.orders_dataset.csv'
+FROM 'C:\Users\kelly\OneDrive\Documentos\SQL SERVER DATA ACADEMY\PROYECTO SQL\SQL-SERVER-HR-ANALITYCS\Data\orders_dataset.csv'
 WITH (
     FORMAT = 'CSV',
     FIRSTROW = 2,

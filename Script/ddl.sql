@@ -12,7 +12,7 @@ USE BD_Ecommerce
 IF OBJECT_ID('orders_dataset', 'U') IS NOT NULL
     DROP TABLE orders_dataset;
 
-CREATE TABLE orders_dataset (
+CREATE TABLE dbo.orders_dataset (
   order_id VARCHAR(36) NOT NULL PRIMARY KEY,  -- ids hex (~32 chars), se deja margen
   customer_id VARCHAR(36) NOT NULL,           -- ids hex
   order_status VARCHAR(20) NOT NULL,         -- 'delivered','invoiced', etc.
@@ -34,3 +34,34 @@ WITH (
 );
 
 select * from orders_dataset
+
+---------------------------------
+-- CARGA ORDENES
+---------------------------------
+IF OBJECT_ID('products_dataset', 'U') IS NOT NULL
+    DROP TABLE products_dataset;
+
+CREATE TABLE products_dataset (
+    product_id VARCHAR(100) NOT NULL PRIMARY KEY,
+    product_category_name VARCHAR(100) NULL,
+    product_name_lenght INT NULL,
+    product_description_lenght INT NULL,
+    product_photos_qty INT NULL,
+    product_weight_g INT NULL,
+    product_length_cm INT NULL,
+    product_height_cm INT NULL,
+    product_width_cm INT NULL
+);
+
+BULK INSERT products_dataset
+FROM 'C:\Users\kelly\OneDrive\Documentos\SQL SERVER DATA ACADEMY\PROYECTO SQL\SQL-SERVER-HR-ANALITYCS\Data\products_dataset.csv'
+WITH (
+    FORMAT = 'CSV',
+    FIRSTROW = 2,
+    FIELDQUOTE = '"',
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '0x0a',
+    CODEPAGE = '65001'
+);
+
+select * from products_dataset

@@ -36,7 +36,7 @@ WITH (
 select * from orders_dataset
 
 ---------------------------------
--- CARGA ORDENES
+-- CARGA PRODUCTOS
 ---------------------------------
 IF OBJECT_ID('products_dataset', 'U') IS NOT NULL
     DROP TABLE products_dataset;
@@ -92,3 +92,34 @@ WITH (
 );
 
 select * from customers_dataset
+
+---------------------------------
+-- CARGA ARTÍCULOS
+---------------------------------
+
+IF OBJECT_ID('orders_items_dataset', 'U') IS NOT NULL
+    DROP TABLE orders_items_dataset;
+
+CREATE TABLE orders_items_dataset (
+    order_id VARCHAR(36) NOT NULL,
+    order_item_id INT NOT NULL,
+    product_id VARCHAR(100) NOT NULL,
+    seller_id VARCHAR(36) NOT NULL,
+    shipping_limit_date DATETIME2(0) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    freight_value DECIMAL(10, 2) NOT NULL,
+    CONSTRAINT PK_Order_Items PRIMARY KEY (order_id, order_item_id)
+);
+
+BULK INSERT orders_items_dataset
+FROM 'C:\Users\kelly\OneDrive\Documentos\SQL SERVER DATA ACADEMY\PROYECTO SQL\SQL-SERVER-HR-ANALITYCS\Data\order_items_dataset.csv'
+WITH (
+    FORMAT = 'CSV',
+    FIRSTROW = 2,
+    FIELDQUOTE = '"',
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '0x0a',
+    CODEPAGE = '65001'
+);
+
+Select * from orders_items_dataset

@@ -153,3 +153,20 @@ HAVING count(*) > 1
 -- Verificar valores nulos  --
 -----------------------------------
 
+--Verificar valores nulos en las fechas de entrega, aprobación y entrega a socio logístico en la tabla orders_dataset
+
+SELECT 
+    COUNT(*) AS total_pedidos,
+    SUM(CASE WHEN order_delivered_customer_date IS NULL THEN 1 ELSE 0 END) AS pedidos_sin_fecha_entrega,
+    SUM(CASE WHEN order_approved_at IS NULL THEN 1 ELSE 0 END) AS pedidos_sin_fecha_aprobacion,
+	SUM(CASE WHEN order_delivered_carrier_date IS NULL THEN 1 ELSE 0 END) AS pedidos_sin_fecha_entrega_logistico
+FROM orders_dataset;
+
+
+--Verificar valores nulos en las categorias de la tabla products_dataset
+
+SELECT COUNT(*) AS productos_sin_categoria
+FROM products_dataset
+WHERE product_category_name IS NULL;
+
+

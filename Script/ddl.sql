@@ -123,3 +123,33 @@ WITH (
 );
 
 Select * from orders_items_dataset
+
+-----------------------------------
+-- Verificar valores duplicados  --
+-----------------------------------
+
+--Verificar valores duplicados en la tabla orders_dataset
+
+SELECT order_id, count(*)
+FROM orders_dataset
+GROUP BY order_id
+HAVING count(*) > 1
+
+--Verificar valores duplicados en la tabla products_dataset
+
+SELECT product_id, count(*)
+FROM products_dataset
+GROUP BY product_id
+HAVING count(*) >1 
+
+--Verificar valores duplicados en la tabla customers_dataset
+
+SELECT customer_id, count(*)
+FROM customers_dataset
+GROUP BY customer_id
+HAVING count(*) > 1
+
+-----------------------------------
+-- Verificar valores nulos  --
+-----------------------------------
+

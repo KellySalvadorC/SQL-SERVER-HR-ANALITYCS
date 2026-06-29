@@ -124,6 +124,36 @@ WITH (
 
 Select * from orders_items_dataset
 
+---------------------------------
+-- CARGA RESEÑAS
+---------------------------------
+
+IF OBJECT_ID('orders_reviews_dataset', 'U') IS NOT NULL
+    DROP TABLE orders_reviews_dataset;
+
+CREATE TABLE order_reviews_dataset (
+    review_id varchar(50) NULL,
+    order_id varchar(50) NULL,
+    review_score varchar(50) NULL,
+    review_comment_title varchar(50) NULL,
+    review_comment_message varchar(50) NULL,
+    review_creation_date varchar(50) NULL,
+    review_answer_timestamp varchar(50) NULL
+);
+
+BULK INSERT order_reviews_dataset
+FROM 'C:\Users\kelly\OneDrive\Documentos\SQL SERVER DATA ACADEMY\PROYECTO SQL\SQL-SERVER-HR-ANALITYCS\Data\order_reviews_dataset.csv'
+WITH (
+    FORMAT = 'CSV',
+    FIRSTROW = 2,
+    FIELDQUOTE = '"',
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '0x0a',
+    CODEPAGE = '65001'
+);
+
+select * from order_reviews_dataset
+
 -----------------------------------
 -- Verificar valores duplicados  --
 -----------------------------------
@@ -172,3 +202,4 @@ WHERE product_category_name IS NULL;
 -----------------------------------
 -- Transformación de datos  --
 -----------------------------------
+

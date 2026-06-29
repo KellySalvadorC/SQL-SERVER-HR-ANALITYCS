@@ -217,4 +217,30 @@ Select * from dim_product
 
 --Transformando la tabla de comportamiento de clientes de la tabla customers_dataset
 
+select c.customer_unique_id, sum(i.price) as Total_gastado,
+       case
+	   when sum(i.price) <=200  THEN 'Cliente básico'
+	   when sum(i.price) between 200 and 1000 THEN 'Cliente preferente'
+	   else 'Cliente Vip'
+	   end as Categoria
+into dim_comportamiento_customer
+from customers_dataset c
+inner join  orders_dataset o on c.customer_id = o.customer_id
+inner join  orders_items_dataset i on o.order_id=i.order_id
+group by  c.customer_unique_id
+
+select * from dim_comportamiento_customer
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -169,4 +169,6 @@ SELECT COUNT(*) AS productos_sin_categoria
 FROM products_dataset
 WHERE product_category_name IS NULL;
 
-
+-----------------------------------
+-- Transformación de datos  --
+-----------------------------------

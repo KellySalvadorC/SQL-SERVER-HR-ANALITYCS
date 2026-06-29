@@ -203,3 +203,15 @@ WHERE product_category_name IS NULL;
 -- Transformación de datos  --
 -----------------------------------
 
+--Transformando la tabla de dimensiones producto de la tabla products_dataset
+
+Select product_id, (product_length_cm * product_height_cm * product_width_cm) as volume_product,
+       ( case 
+	     when (product_length_cm * product_height_cm * product_width_cm) <= 5000 then 'Pequeño'
+		 when (product_length_cm * product_height_cm * product_width_cm) <= 20000 then 'Mediano'
+		 else 'Grande'
+		 end ) as Categoria_tamaño
+		 into dim_product
+		from products_dataset
+
+Select * from dim_product

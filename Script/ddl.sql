@@ -131,7 +131,7 @@ Select * from orders_items_dataset
 IF OBJECT_ID('orders_reviews_dataset', 'U') IS NOT NULL
     DROP TABLE orders_reviews_dataset;
 
-CREATE TABLE order_reviews_dataset (
+CREATE TABLE orders_reviews_dataset (
     review_id varchar(50) NULL,
     order_id varchar(50) NULL,
     review_score varchar(50) NULL,
@@ -141,7 +141,7 @@ CREATE TABLE order_reviews_dataset (
     review_answer_timestamp varchar(50) NULL
 );
 
-BULK INSERT order_reviews_dataset
+BULK INSERT orders_reviews_dataset
 FROM 'C:\Users\kelly\OneDrive\Documentos\SQL SERVER DATA ACADEMY\PROYECTO SQL\SQL-SERVER-HR-ANALITYCS\Data\order_reviews_dataset.csv'
 WITH (
     FORMAT = 'CSV',
@@ -152,7 +152,7 @@ WITH (
     CODEPAGE = '65001'
 );
 
-select * from order_reviews_dataset
+select * from orders_reviews_dataset
 
 -----------------------------------
 -- Verificar valores duplicados  --
@@ -192,7 +192,6 @@ SELECT
 	SUM(CASE WHEN order_delivered_carrier_date IS NULL THEN 1 ELSE 0 END) AS pedidos_sin_fecha_entrega_logistico
 FROM orders_dataset;
 
-
 --Verificar valores nulos en las categorias de la tabla products_dataset
 
 SELECT COUNT(*) AS productos_sin_categoria
@@ -215,4 +214,7 @@ Select product_id, (product_length_cm * product_height_cm * product_width_cm) as
 		from products_dataset
 
 Select * from dim_product
+
+--Transformando la tabla de comportamiento de clientes de la tabla customers_dataset
+
 

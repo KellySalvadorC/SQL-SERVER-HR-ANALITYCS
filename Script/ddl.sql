@@ -215,3 +215,4 @@ Select product_id, (product_length_cm * product_height_cm * product_width_cm) as
 		from products_dataset
 
 Select * from dim_product
+

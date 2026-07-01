@@ -236,9 +236,27 @@ select * from dim_comportamiento_customer
 -- EXPLORATORY DATA ANALYSIS AND INSIGHTS --
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
---Pregunta #1: ¿?
---
+--Pregunta #1: ¿Cuál es el volumen total de ventas, el número de pedidos concretados y el ticket promedio global del negocio?
+--Volumen total de ventas, número de pedidos concretados y ticket promedio global
 
+WITH Resumen_Ventas_Reales AS (
+    SELECT 
+        SUM(oi.price) AS Ingreso_Total,
+        COUNT(DISTINCT o.order_id) AS Total_Pedidos
+    FROM orders_dataset o
+    INNER JOIN orders_items_dataset oi 
+        ON o.order_id = oi.order_id
+    WHERE o.order_status = 'delivered' -- Asegura que solo sumamos ganancias reales
+)
+SELECT 
+    Ingreso_Total,
+    Total_Pedidos,
+    ROUND((Ingreso_Total / Total_Pedidos),2) AS Ticket_Promedio
+FROM Resumen_Ventas_Reales;
+
+
+
+	
 --Pregunta #2: ¿?
 --
 

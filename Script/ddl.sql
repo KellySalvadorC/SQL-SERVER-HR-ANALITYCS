@@ -219,7 +219,7 @@ Select * from dim_product
 
 select c.customer_unique_id, sum(i.price) as Total_gastado,
        case
-	   when sum(i.price) <=200  THEN 'Cliente básico'
+	   when sum(i.price) <200  THEN 'Cliente básico'
 	   when sum(i.price) between 200 and 1000 THEN 'Cliente preferente'
 	   else 'Cliente Vip'
 	   end as Categoria
@@ -230,6 +230,7 @@ inner join  orders_items_dataset i on o.order_id=i.order_id
 group by  c.customer_unique_id
 
 select * from dim_comportamiento_customer
+
 
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 -- EXPLORATORY DATA ANALYSIS AND INSIGHTS --
@@ -273,13 +274,30 @@ select * from dim_comportamiento_customer
 
 
 
+SELECT review_id, count(*)
+FROM order_reviews_dataset
+GROUP BY review_id
+HAVING count(*) > 1
 
 
 
+SELECT order_id,count(*)
+FROM orders_items_dataset
+group by order_id
+HAVING count(*) > 1
 
 
+select * from order_reviews_dataset
+where review_id = 'e13128391a71b69596a2d644a2ad0948'
 
 
+SELECT order_id, count(*)
+FROM order_reviews_dataset
+GROUP BY order_id
+HAVING count(*) > 1
 
+
+select * from order_reviews_dataset
+where order_id = '2af768daf2646f316e9457e1f10b2428'
 
 

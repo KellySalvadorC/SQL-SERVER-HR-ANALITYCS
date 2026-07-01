@@ -246,7 +246,7 @@ WITH Resumen_Ventas_Reales AS (
     FROM orders_dataset o
     INNER JOIN orders_items_dataset oi 
         ON o.order_id = oi.order_id
-    WHERE o.order_status = 'delivered' -- Asegura que solo sumamos ganancias reales
+    WHERE o.order_status = 'delivered' 
 )
 SELECT 
     Ingreso_Total,
@@ -254,9 +254,6 @@ SELECT
     ROUND((Ingreso_Total / Total_Pedidos),2) AS Ticket_Promedio
 FROM Resumen_Ventas_Reales;
 
-
-
-	
 --Pregunta #2: ¿?
 --
 

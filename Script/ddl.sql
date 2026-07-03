@@ -280,12 +280,11 @@ FROM Calculo_Rangos
 GROUP BY Rango_Tiempo_Entrega
 ORDER BY Porcentaje DESC
 
-
-
- 
---Pregunta #3: ¿?
+--Pregunta #3: ¿Cuáles son las 5 categorías de productos en la tabla Dim_Producto que generan más ingresos acumulados para el negocio?
 --
-
+select top 2 * from dim_product
+select top 2 * from products_dataset
+select top 2* from [dbo].[orders_items_dataset]
 --Pregunta #4: ¿?
 --
 

@@ -254,9 +254,24 @@ SELECT
     ROUND((Ingreso_Total / Total_Pedidos),2) AS Ticket_Promedio
 FROM Resumen_Ventas_Reales;
 
---Pregunta #2: ¿?
---
+--Pregunta #2: ¿Cuál es el tiempo promedio de entrega (en días) según el tamaño del volumen del producto (Pequeño, Mediano, Grande),?
+--Tiempo promedio de entrega según el tamaño del volumen del producto
 
+SELECT
+    p.Categoria_Tamaño,
+    AVG(DATEDIFF(DAY, o.order_purchase_timestamp, o.order_delivered_customer_date) * 1.0) AS Promedio_Entrega
+FROM dim_product p
+INNER JOIN orders_items_dataset i 
+    ON p.product_id = i.product_id
+INNER JOIN orders_dataset o 
+    ON i.order_id = o.order_id
+WHERE o.order_delivered_customer_date IS NOT NULL
+  AND o.order_purchase_timestamp IS NOT NULL
+GROUP BY p.Categoria_Tamaño
+ORDER BY Promedio_Entrega;
+	  SELECT TOP 1 * FROM [dbo].[dim_product] p
+	  SELECT TOP 1 * FROM [dbo].[orders_items_dataset]i
+	  select top 1 * from [dbo].[orders_dataset] o
 --Pregunta #3: ¿?
 --
 

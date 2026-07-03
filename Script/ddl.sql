@@ -254,24 +254,35 @@ SELECT
     ROUND((Ingreso_Total / Total_Pedidos),2) AS Ticket_Promedio
 FROM Resumen_Ventas_Reales;
 
---Pregunta #2: ¿Cuál es el tiempo promedio de entrega (en días) según el tamaño del volumen del producto (Pequeño, Mediano, Grande),?
---Tiempo promedio de entrega según el tamaño del volumen del producto
+--Pregunta #2: ¿Qué porcentaje del total de órdenes se entrega dentro de la primera, segunda, tercera o cuarta semana desde la compra?
+--Hallar porcentaje del total de ordenes de entrega
 
-SELECT
-    p.Categoria_Tamaño,
-    AVG(DATEDIFF(DAY, o.order_purchase_timestamp, o.order_delivered_customer_date) * 1.0) AS Promedio_Entrega
-FROM dim_product p
-INNER JOIN orders_items_dataset i 
-    ON p.product_id = i.product_id
-INNER JOIN orders_dataset o 
-    ON i.order_id = o.order_id
-WHERE o.order_delivered_customer_date IS NOT NULL
-  AND o.order_purchase_timestamp IS NOT NULL
-GROUP BY p.Categoria_Tamaño
-ORDER BY Promedio_Entrega;
-	  SELECT TOP 1 * FROM [dbo].[dim_product] p
-	  SELECT TOP 1 * FROM [dbo].[orders_items_dataset]i
-	  select top 1 * from [dbo].[orders_dataset] o
+WITH Calculo_Rangos AS (
+    SELECT 
+        order_id,
+        CASE 
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 7 THEN 'Menos de 1 Semana'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 14 THEN '1 a 2 Semanas'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 21 THEN '2 a 3 Semanas'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 30 THEN '3 a 4 Semanas'
+            ELSE 'Más de un Mes (Crítico)'
+        END AS Rango_Tiempo_Entrega
+    FROM orders_dataset  
+    WHERE order_delivered_customer_date IS NOT NULL
+      AND order_purchase_timestamp IS NOT NULL
+)
+
+SELECT 
+    Rango_Tiempo_Entrega,
+    COUNT(order_id) AS Total_Ordenes,
+    ROUND(COUNT(order_id) * 100.0 / SUM(COUNT(order_id)) OVER(), 2) AS Porcentaje
+FROM Calculo_Rangos
+GROUP BY Rango_Tiempo_Entrega
+ORDER BY Porcentaje DESC
+
+
+
+ 
 --Pregunta #3: ¿?
 --
 
@@ -303,31 +314,5 @@ ORDER BY Promedio_Entrega;
 
 
 
-
-SELECT review_id, count(*)
-FROM order_reviews_dataset
-GROUP BY review_id
-HAVING count(*) > 1
-
-
-
-SELECT order_id,count(*)
-FROM orders_items_dataset
-group by order_id
-HAVING count(*) > 1
-
-
-select * from order_reviews_dataset
-where review_id = 'e13128391a71b69596a2d644a2ad0948'
-
-
-SELECT order_id, count(*)
-FROM order_reviews_dataset
-GROUP BY order_id
-HAVING count(*) > 1
-
-
-select * from order_reviews_dataset
-where order_id = '2af768daf2646f316e9457e1f10b2428'
 
 

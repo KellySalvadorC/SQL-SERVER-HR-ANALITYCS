@@ -280,13 +280,53 @@ FROM Calculo_Rangos
 GROUP BY Rango_Tiempo_Entrega
 ORDER BY Porcentaje DESC
 
---Pregunta #3: ¿Cuáles son las 5 categorías de productos en la tabla Dim_Producto que generan más ingresos acumulados para el negocio?
---
-select top 2 * from dim_product
-select top 2 * from products_dataset
-select top 2* from [dbo].[orders_items_dataset]
---Pregunta #4: ¿?
---
+--Pregunta #3: ¿Cuáles son los 5 productos individuales (product_id) que generan la mayor cantidad de ingresos 
+--acumulados para el negocio, a qué categoría pertenecen y cuál es su porcentaje de participación sobre la venta total de la empresa?
+--Los 5 productos que generan mayor cantidad de ingresos
+
+WITH Top5IDs AS (
+    -- Paso 1: Filtramos los 5 IDs con más ingresos (esto es ultra rápido)
+    SELECT TOP 5
+        product_id,
+        COUNT(product_id) AS Cantidad_unidades_vendidas,
+        SUM(price) AS Ingresos_totales
+    FROM orders_items_dataset
+    GROUP BY product_id
+    ORDER BY Ingresos_totales DESC
+)
+-- Paso 2: Buscamos la categoría solo para esos 5 productos y dividimos de forma directa
+SELECT 
+    p.product_id,
+	p.product_category_name AS Categoria_Producto,
+    t.Cantidad_unidades_vendidas,
+    ROUND(t.Ingresos_totales, 2) AS Ingresos_totales,
+    -- Dividimos entre la suma global directamente aquí en una sola línea
+    ROUND((t.Ingresos_totales / (SELECT SUM(price) FROM orders_items_dataset)) * 100, 2) AS Porcentaje_Participación
+FROM Top5IDs t
+INNER JOIN products_dataset p ON t.product_id = p.product_id
+ORDER BY t.Ingresos_totales DESC;
+
+--Pregunta #4: ¿Cómo se distribuye el puntaje de reseña promedio cuando un pedido se entrega 
+--a tiempo versus cuando se entrega retrasado con la fecha estimada?
+--Distribucion de reseña promedio cuando un pedido se encuentra retrasado y a tiempo
+
+With Entrega as(
+Select order_id,
+       Case
+	   When Datediff(DAY,order_delivered_customer_date,order_estimated_delivery_date)>= 0 then 'A tiempo'
+	   else 'Retrasado'
+	   end as Entrega_pedido
+from orders_dataset
+)
+
+Select 
+      e.Entrega_pedido,
+	  Avg(Convert(int,o.review_score)) as Reseña_promedio
+	  From order_reviews_dataset o 
+	  INNER JOIN Entrega e 
+	  On e.order_id = o.order_id
+	  Group by e.Entrega_pedido
+
 
 
 --Pregunta #5: ¿?

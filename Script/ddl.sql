@@ -328,10 +328,27 @@ Select
 	  Group by e.Entrega_pedido
 
 
-
---Pregunta #5: ¿?
+--Pregunta #5: ¿Cuál es el total de ingresos y el porcentaje del total general de ventas que
+--provienen de pedidos con calificaciones bajas (scores de 1 y 2 estrellas)?
 --
 
+WITH Metricas AS (
+    SELECT 
+        -- Sumamos el total de las ventas que cumplen la condición de 1 o 2 estrellas
+        SUM(o.price) AS Ingresos_Calificaciones_Bajas,
+        
+        -- Traemos el total absoluto de todas las ventas del negocio
+        (SELECT SUM(price) FROM orders_items_dataset) AS Total_Ventas_Global
+    FROM order_reviews_dataset r
+    INNER JOIN orders_items_dataset o ON r.order_id = o.order_id
+    WHERE r.review_score IN (1, 2)
+)
+
+SELECT 
+    Ingresos_Calificaciones_Bajas,
+    ROUND((Ingresos_Calificaciones_Bajas / Total_Ventas_Global) * 100, 2) AS Porcentaje_Del_Total_Global
+FROM Metricas;
+	  
 
 --Pregunta #6: ¿?
 --

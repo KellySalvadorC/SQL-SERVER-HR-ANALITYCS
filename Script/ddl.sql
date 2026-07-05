@@ -330,7 +330,7 @@ Select
 
 --Pregunta #5: ¿Cuál es el total de ingresos y el porcentaje del total general de ventas que
 --provienen de pedidos con calificaciones bajas (scores de 1 y 2 estrellas)?
---
+--Total de ingresos y porcentaje de productos con calificaciones bajas
 
 WITH Metricas AS (
     SELECT 
@@ -350,9 +350,32 @@ SELECT
 FROM Metricas;
 	  
 
---Pregunta #6: ¿?
---
+--Pregunta #6: ¿Cuáles son los 3 productos que más se venden dentro de cada categoría de tamaño?
+--Top 3 productos mas vendidos dentro de cateogria tamaños
 
+WITH Ventas_por_producto AS(
+SELECT p.Categoria_tamaño,
+       p.product_id,
+	   SUM(o.price) AS Ingresos_totales
+FROM   dim_product p
+INNER JOIN orders_items_dataset o
+ON p.product_id = o.product_id
+GROUP BY p.Categoria_tamaño,p.product_id
+)
+
+,Ranking_Productos AS(
+SELECT Categoria_tamaño,
+       product_id,
+       Ingresos_totales,
+	   RANK() OVER (
+	   PARTITION BY Categoria_tamaño 
+	   ORDER BY Ingresos_totales DESC
+	   ) AS Puesto_Ranking
+FROM  Ventas_por_producto 
+)
+
+SELECT  *  FROM Ranking_Productos
+WHERE Puesto_Ranking <= 3
 
 --Pregunta #7: ¿?
 --

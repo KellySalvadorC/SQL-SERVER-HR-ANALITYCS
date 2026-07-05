@@ -377,9 +377,20 @@ FROM  Ventas_por_producto
 SELECT  *  FROM Ranking_Productos
 WHERE Puesto_Ranking <= 3
 
---Pregunta #7: ¿?
+--Pregunta #7: ¿Quiénes son los 10 clientes de mayor valor dentro del segmento VIP (Cliente Vip) 
+--según su gasto acumulado, y cómo se posiciona el consumo individual de cada uno de ellos
+--frente al gasto promedio y al gasto máximo histórico de su misma categoría?
 --
 
+SELECT TOP 10 
+   customer_unique_id AS ID_cliente,
+   Categoria,
+   Round(Total_gastado,2) AS Gasto_Cliente,
+   ROUND(AVG(Total_gastado) OVER (PARTITION BY Categoria),2) AS Gasto_Promedio,
+   ROUND(MAX(Total_gastado) OVER (PARTITION BY Categoria),2) AS Gasto_Maximo
+   FROM dim_comportamiento_customer
+   WHERE Categoria = 'Cliente Vip'
+   ORDER BY Total_gastado DESC
 
 --Pregunta #8: ¿?
 --

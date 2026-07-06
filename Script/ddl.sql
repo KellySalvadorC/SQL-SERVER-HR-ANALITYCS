@@ -435,10 +435,10 @@ ORDER BY
       Dias_retraso DESC
 
 
---Pregunta #9: ¿Cuáles son los 3 pedidos específicos que registraron el mayor valor monetario
+--Pregunta #9: ¿Cuáles son los 10 pedidos específicos que registraron el mayor valor monetario
 --de compra y qué puesto ocupan en facturación dentro de su respectivo ciclo de distribución?
 
---
+--Los 10 pedidos que registraron mayor valor monetario y puesto, rango de tiempo de entrega y ranking 
 WITH Monto_Consolidado_Pedido AS (
     
     SELECT 
@@ -476,11 +476,11 @@ SELECT TOP 10
 FROM Clasificacion_tiempo_entrega
    
 --Pregunta #10: ¿Cuál es el impacto financiero real de los retrasos logísticos severos en la 
---retención de nuestros clientes más valiosos, calculando cuántos clientes Preferentes y
---VIP han experimentado entregas críticas (más de un mes) y qué volumen de ingresos totales 
+--retención de nuestros clientes más valiosos, calculando cuántos clientes basicos,clientes Preferentes 
+--y Clientes Vip han experimentado entregas críticas (más de un mes) y qué volumen de ingresos totales 
 --está en riesgo de perderse por problemas operativos?
 
---
+--Impacto en retrasos logisticos segun segmentaciòn de cliente
 
 WITH Pedidos_criticos AS(
 SELECT 

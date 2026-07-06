@@ -476,11 +476,11 @@ SELECT TOP 10
 FROM Clasificacion_tiempo_entrega
    
 --Pregunta #10: ¿Cuál es el impacto financiero real de los retrasos logísticos severos en la 
---retención de nuestros clientes más valiosos, calculando cuántos clientes basicos,clientes Preferentes 
+--retención de nuestros clientes más valiosos, calculando cuántos clientes básicos,clientes Preferentes 
 --y Clientes Vip han experimentado entregas críticas (más de un mes) y qué volumen de ingresos totales 
 --está en riesgo de perderse por problemas operativos?
 
---Impacto en retrasos logisticos segun segmentaciòn de cliente
+--Impacto en retrasos logisticos segun segmentación de cliente
 
 WITH Pedidos_criticos AS(
 SELECT 

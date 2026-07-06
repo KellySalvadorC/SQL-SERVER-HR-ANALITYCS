@@ -392,42 +392,105 @@ SELECT TOP 10
    WHERE Categoria = 'Cliente Vip'
    ORDER BY Total_gastado DESC
 
---Pregunta #8: ¿Cuál ha sido el pedido críticamente más afectado en satisfacción para
---cada cliente único (menor puntaje de reseña), cuántos días de retraso real experimentó
---frente a la fecha estimada, y cómo se listan consecutivamente estos casos prioritarios de atención?
---
-WITH Reseña_clientes as(
-SELECT o.customer_id,
-       o.order_id,
-	   r.review_score as Puntaje_Reseña,
-	   DATEDIFF(DAY,o.order_estimated_delivery_date, o.order_delivered_customer_date) AS Dias_retraso,
-	   ROW_NUMBER() OVER( 
-	   PARTITION BY customer_id 
-	   ORDER BY Convert(int,r.review_score) ASC,
-	            DATEDIFF(DAY,o.order_estimated_delivery_date, o.order_delivered_customer_date) DESC
-	   ) AS Peor_Experiencia_Secuencial
-	   FROM orders_dataset o
-	   INNER JOIN order_reviews_dataset r
-	   ON o.order_id = r.order_id
-	   WHERE o.order_delivered_customer_date IS NOT NULL 
-             AND o.order_estimated_delivery_date IS NOT NULL
+--Pregunta #8: ¿Cómo se listan consecutivamente las experiencias de entrega de los clientes 
+--que sufrieron los mayores tiempos de demora en la empresa, y cuál fue el puntaje de reseña (review_score) 
+--asociado a estos pedidos críticos?
+
+-- Lista de las experiencias de entrega con mayor tiempo de demora según puntaje de reseña
+WITH Calculo_Retraso_Reseñas AS (
+    SELECT 
+        r.order_id AS ID_Pedido,
+        r.review_score AS Puntaje_Reseña,
+        -- Traemos las fechas con subconsultas directas ultra rápidas sin hacer un JOIN completo
+        DATEDIFF(DAY, 
+            (SELECT o.order_estimated_delivery_date FROM orders_dataset o WHERE o.order_id = r.order_id), 
+            (SELECT o.order_delivered_customer_date FROM orders_dataset o WHERE o.order_id = r.order_id)
+        ) AS Dias_retraso,
+        -- Tu función analítica intacta particionando por el puntaje de la reseña
+        ROW_NUMBER() OVER( 
+            PARTITION BY r.review_score 
+            ORDER BY DATEDIFF
+		        (DAY, 
+                (SELECT o.order_estimated_delivery_date FROM orders_dataset o WHERE o.order_id = r.order_id), 
+                (SELECT o.order_delivered_customer_date FROM orders_dataset o WHERE o.order_id = r.order_id)
+            ) DESC
+        ) AS Experiencia_Secuencial
+    FROM order_reviews_dataset r
+    -- Filtramos directo en la tabla de reseñas para que procese menos datos (solo las notas bajas)
+    WHERE r.review_score IN (1, 2)
 ) 
 
+-- Mostramos los resultados finales de forma segura
 SELECT TOP 10
-    customer_id AS ID_Cliente,
-    order_id AS ID_Pedido,
+    ID_Pedido,
     Puntaje_Reseña,
     CASE 
-        WHEN Dias_Retraso > 0 THEN Dias_Retraso 
+        WHEN Dias_retraso > 0 THEN Dias_retraso 
         ELSE 0 
     END AS Dias_Retraso_Real,
-    Peor_Experiencia_Secuencial
-FROM Reseña_clientes
-WHERE Peor_Experiencia_Secuencial = 1 
-ORDER BY Dias_Retraso DESC, Puntaje_Reseña ASC
+    Experiencia_Secuencial
+FROM Calculo_Retraso_Reseñas
 
---Pregunta #9: ¿?
+ORDER BY 
+      Dias_retraso DESC
+
+
+--Pregunta #9: ¿Cuáles son los 3 pedidos específicos que registraron el mayor valor monetario
+--de compra y qué puesto ocupan en facturación dentro de su respectivo ciclo de distribución?
+
 --
+
+WITH Monto_Consolidado_Pedido AS (
+    
+    SELECT 
+        order_id,
+        SUM(price) AS Valor_Total_Pedido
+    FROM orders_items_dataset
+    GROUP BY order_id
+),
+
+Clasificacion_tiempo_entrega AS(
+SELECT m.order_id,
+       m.Valor_Total_Pedido,
+	    CASE 
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 7 THEN 'Menos de 1 Semana'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 14 THEN '1 a 2 Semanas'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 21 THEN '2 a 3 Semanas'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 30 THEN '3 a 4 Semanas'
+            ELSE 'Más de un Mes (Crítico)'
+		END AS Rango_tiempo_entrega
+FROM orders_dataset o
+INNER JOIN  Monto_Consolidado_Pedido m
+ON o.order_id = m.order_id
+WHERE o.order_delivered_customer_date IS NOT NULL
+      AND o.order_purchase_timestamp IS NOT NULL
+)
+
+SELECT TOP 10 
+	    order_id as ID_pedido,
+		Rango_tiempo_entrega,
+		Valor_Total_Pedido as Monto,
+		RANK() OVER(
+		     PARTITION BY Rango_tiempo_entrega
+			 ORDER BY Valor_Total_Pedido DESC
+			 ) AS Ranking_Monto
+FROM Clasificacion_tiempo_entrega
+   
+
+
+
+
+SELECT TOP 10  ID_pedido,
+       Rango_tiempo_entrega,
+	   price,
+	   Ranking_Monto
+FROM   Ranking_Financiero
+	
+
+
+
+select top 1 * from [dbo].[orders_dataset] -- o
+select top 1 * from [dbo].[orders_items_dataset] --oi
 
 --Pregunta #10: ¿?
 --

@@ -439,7 +439,6 @@ ORDER BY
 --de compra y qué puesto ocupan en facturación dentro de su respectivo ciclo de distribución?
 
 --
-
 WITH Monto_Consolidado_Pedido AS (
     
     SELECT 
@@ -476,9 +475,50 @@ SELECT TOP 10
 			 ) AS Ranking_Monto
 FROM Clasificacion_tiempo_entrega
    
---Pregunta #10: ¿?
+--Pregunta #10: ¿Cuál es el impacto financiero real de los retrasos logísticos severos en la 
+--retención de nuestros clientes más valiosos, calculando cuántos clientes Preferentes y
+--VIP han experimentado entregas críticas (más de un mes) y qué volumen de ingresos totales 
+--está en riesgo de perderse por problemas operativos?
+
 --
 
+WITH Pedidos_criticos AS(
+SELECT 
+     o.customer_id,
+	 o.order_id
+	 FROM orders_dataset o
+	 WHERE DATEDIFF(DAY,o.order_purchase_timestamp,o.order_delivered_customer_date) > 30
+),
+
+Clientes_Unificados AS (
+    -- Paso 2: Cruzamos con la tabla maestra de clientes para transformar el customer_id temporal en el customer_unique_id real
+    SELECT 
+        c.customer_unique_id,
+        pc.order_id
+    FROM Pedidos_criticos pc
+    INNER JOIN customers_dataset c ON pc.customer_id = c.customer_id
+),
+
+
+Clientes_en_riesgo AS(
+SELECT 
+     dim.Categoria as Segmento_cliente,
+	 COUNT(DISTINCT cu.customer_unique_id) AS Cantidad_clientes_afectados,
+	 SUM(dim.Total_gastado) as Total_en_riesgo
+	 FROM Clientes_Unificados cu
+	 INNER JOIN dim_comportamiento_customer dim
+	 ON cu.customer_unique_id = dim.customer_unique_id
+	 GROUP BY dim.Categoria
+)
+
+SELECT 
+    Segmento_cliente,
+    Cantidad_clientes_afectados,
+    ROUND(Total_en_riesgo, 2) AS Facturacion_En_Riesgo,
+    ROUND((Total_en_riesgo / SUM(Total_en_riesgo) OVER()) * 100, 2) AS Porcentaje_Impacto_Riesgo
+FROM Clientes_en_riesgo
+ORDER BY Total_en_riesgo DESC;
+      
 
 
 

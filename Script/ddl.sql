@@ -476,22 +476,6 @@ SELECT TOP 10
 			 ) AS Ranking_Monto
 FROM Clasificacion_tiempo_entrega
    
-
-
-
-
-SELECT TOP 10  ID_pedido,
-       Rango_tiempo_entrega,
-	   price,
-	   Ranking_Monto
-FROM   Ranking_Financiero
-	
-
-
-
-select top 1 * from [dbo].[orders_dataset] -- o
-select top 1 * from [dbo].[orders_items_dataset] --oi
-
 --Pregunta #10: ¿?
 --
 

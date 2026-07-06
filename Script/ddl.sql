@@ -392,8 +392,39 @@ SELECT TOP 10
    WHERE Categoria = 'Cliente Vip'
    ORDER BY Total_gastado DESC
 
---Pregunta #8: ¿?
+--Pregunta #8: ¿Cuál ha sido el pedido críticamente más afectado en satisfacción para
+--cada cliente único (menor puntaje de reseña), cuántos días de retraso real experimentó
+--frente a la fecha estimada, y cómo se listan consecutivamente estos casos prioritarios de atención?
 --
+WITH Reseña_clientes as(
+SELECT o.customer_id,
+       o.order_id,
+	   r.review_score as Puntaje_Reseña,
+	   DATEDIFF(DAY,o.order_estimated_delivery_date, o.order_delivered_customer_date) AS Dias_retraso,
+	   ROW_NUMBER() OVER( 
+	   PARTITION BY customer_id 
+	   ORDER BY Convert(int,r.review_score) ASC,
+	            DATEDIFF(DAY,o.order_estimated_delivery_date, o.order_delivered_customer_date) DESC
+	   ) AS Peor_Experiencia_Secuencial
+	   FROM orders_dataset o
+	   INNER JOIN order_reviews_dataset r
+	   ON o.order_id = r.order_id
+	   WHERE o.order_delivered_customer_date IS NOT NULL 
+             AND o.order_estimated_delivery_date IS NOT NULL
+) 
+
+SELECT TOP 10
+    customer_id AS ID_Cliente,
+    order_id AS ID_Pedido,
+    Puntaje_Reseña,
+    CASE 
+        WHEN Dias_Retraso > 0 THEN Dias_Retraso 
+        ELSE 0 
+    END AS Dias_Retraso_Real,
+    Peor_Experiencia_Secuencial
+FROM Reseña_clientes
+WHERE Peor_Experiencia_Secuencial = 1 
+ORDER BY Dias_Retraso DESC, Puntaje_Reseña ASC
 
 --Pregunta #9: ¿?
 --

@@ -14,6 +14,7 @@ _Utilizar SQL dentro de SQL Server Management Studio (SSMS) para procesar y cons
 - [Sobre los Datos](#sobre-los-datos)
 - [Tareas](#tareas)
 - [Limpieza de Datos](#limpieza-de-datos)
+- [Transformación de Datos](#transformación-de-datos)
 - [Análisis Exploratorio de Datos e Insights](#análisis-exploratorio-de-datos-e-insights)
 
 ## Sobre los Datos
@@ -115,6 +116,46 @@ FROM customers_dataset
 GROUP BY customer_id
 HAVING count(*) > 1
 ```
+## Transformación de Datos
+
+Transformé los datos de la tabla products_dataset para obtener la tabla dim_product, ya que necesito una tabla con la información del volumen de los productos y categoria del tamaño para futuras consultas
+
+```sql
+--Transformando la tabla de dimensiones producto de la tabla products_dataset
+
+Select product_id, (product_length_cm * product_height_cm * product_width_cm) as volume_product,
+       ( case 
+	     when (product_length_cm * product_height_cm * product_width_cm) <= 5000 then 'Pequeño'
+		 when (product_length_cm * product_height_cm * product_width_cm) <= 20000 then 'Mediano'
+		 else 'Grande'
+		 end ) as Categoria_tamaño
+		 into dim_product
+		from products_dataset
+
+Select * from dim_product
+```
+
+También transformé los datos de la tabla customers_dataset cruzandolo usando JOINS con las tablas orders_dataset y orders_items_dataset, ya que necesitaba una tabla con el total gastado por cliente y la categoría de cliente según lo decidido a gastar.
+
+```sql
+--Transformando la tabla de comportamiento de clientes de la tabla customers_dataset
+
+select c.customer_unique_id, sum(i.price) as Total_gastado,
+       case
+	   when sum(i.price) <200  THEN 'Cliente básico'
+	   when sum(i.price) between 200 and 1000 THEN 'Cliente preferente'
+	   else 'Cliente Vip'
+	   end as Categoria
+into dim_comportamiento_customer
+from customers_dataset c
+inner join  orders_dataset o on c.customer_id = o.customer_id
+inner join  orders_items_dataset i on o.order_id=i.order_id
+group by  c.customer_unique_id
+
+select * from dim_comportamiento_customer
+```
+
+
 
 
 

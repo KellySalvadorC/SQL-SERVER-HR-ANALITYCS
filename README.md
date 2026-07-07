@@ -171,6 +171,58 @@ Esta estructura relacional permite cruzar eficientemente variables operativas (f
 ![ModelandoDatos](pictures/Modelando%20datos.png)
 
 
+## Análisis Exploratorio de Datos e Insights
+
+### Pregunta #1: ¿Cuál es el volumen total de ventas, el número de pedidos concretados y el ticket promedio global del negocio?
 
 
+```sql
+--Volumen total de ventas, número de pedidos concretados y ticket promedio global
 
+WITH Resumen_Ventas_Reales AS (
+    SELECT 
+        SUM(oi.price) AS Ingreso_Total,
+        COUNT(DISTINCT o.order_id) AS Total_Pedidos
+    FROM orders_dataset o
+    INNER JOIN orders_items_dataset oi 
+        ON o.order_id = oi.order_id
+    WHERE o.order_status = 'delivered' 
+)
+SELECT 
+    Ingreso_Total,
+    Total_Pedidos,
+    ROUND((Ingreso_Total / Total_Pedidos),2) AS Ticket_Promedio
+FROM Resumen_Ventas_Reales;
+```
+![Pregunta1](pictures/Pregunta%201.png)
+
+
+### Pregunta #2: ¿Qué porcentaje del total de órdenes se entrega dentro de la primera, segunda, tercera o cuarta semana desde la compra?
+
+```sql
+--Hallar porcentaje del total de ordenes de entrega
+
+WITH Calculo_Rangos AS (
+    SELECT 
+        order_id,
+        CASE 
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 7 THEN 'Menos de 1 Semana'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 14 THEN '1 a 2 Semanas'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 21 THEN '2 a 3 Semanas'
+            WHEN DATEDIFF(DAY, order_purchase_timestamp, order_delivered_customer_date) <= 30 THEN '3 a 4 Semanas'
+            ELSE 'Más de un Mes (Crítico)'
+        END AS Rango_Tiempo_Entrega
+    FROM orders_dataset  
+    WHERE order_delivered_customer_date IS NOT NULL
+      AND order_purchase_timestamp IS NOT NULL
+)
+
+SELECT 
+    Rango_Tiempo_Entrega,
+    COUNT(order_id) AS Total_Ordenes,
+    ROUND(COUNT(order_id) * 100.0 / SUM(COUNT(order_id)) OVER(), 2) AS Porcentaje
+FROM Calculo_Rangos
+GROUP BY Rango_Tiempo_Entrega
+ORDER BY Porcentaje DESC
+```
+![Pregunta2](pictures/Pregunta2.png)

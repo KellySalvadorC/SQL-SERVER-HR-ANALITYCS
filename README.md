@@ -15,6 +15,7 @@ _Utilizar SQL dentro de SQL Server Management Studio (SSMS) para procesar y cons
 - [Tareas](#tareas)
 - [Limpieza de Datos](#limpieza-de-datos)
 - [Transformación de Datos](#transformación-de-datos)
+- [Modelamiento de Datos](#modelamiento-de-datos)
 - [Análisis Exploratorio de Datos e Insights](#análisis-exploratorio-de-datos-e-insights)
 
 ## Sobre los Datos
@@ -155,6 +156,19 @@ group by  c.customer_unique_id
 select * from dim_comportamiento_customer
 ```
 
+## Modelamiento de Datos
+
+El diseño de la base de datos se estructuró bajo un enfoque analítico, organizando la información en un modelo relacional de hechos y dimensiones:
+
+#### Tablas Hechos: 
+orders_dataset y orders_items_dataset funcionan como el núcleo transaccional del modelo. Estas tablas registran el flujo operativo de los pedidos, los hitos logísticos clave (fechas) y la facturación (price).
+
+#### Tablas Dimensiones:
+customers_dataset, products_dataset y order_reviews_dataset aportan el contexto maestro de la operación. Adicionalmente, se incorporaron las dimensiones transformadas dim_comportamiento_customer y dim_product para facilitar la segmentación avanzada de clientes VIP y las categorías de tamaño del catálogo
+
+Esta estructura relacional permite cruzar eficientemente variables operativas (fechas de entrega), financieras (precios) y de percepción (reseñas) a través de llaves primarias y foráneas (`order_id`, `product_id`, `customer_id`), asegurando la integridad de los datos en cada consulta analítica.
+
+![ModelandoDatos](pictures/Modelando%20datos.png)
 
 
 

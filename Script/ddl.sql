@@ -183,6 +183,37 @@ HAVING count(*) > 1
 -- Verificar valores nulos  --
 -----------------------------------
 
+--Verificar valores faltantes en la tabla orders_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM orders_dataset
+WHERE order_id IS NULL 
+
+--Verificar valores faltantes en la tabla orders_items_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM orders_items_dataset
+WHERE order_id IS NULL 
+
+--Verificar valores faltantes en la tabla products_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM products_dataset
+WHERE product_id IS NULL 
+
+--Verificar valores faltantes en la tabla customers_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM customers_dataset
+WHERE customer_id IS NULL 
+
+--Verificar valores faltantes en la tabla order_reviews_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM order_reviews_dataset
+WHERE review_id  IS NULL 
+
+
 --Verificar valores nulos en las fechas de entrega, aprobación y entrega a socio logístico en la tabla orders_dataset
 
 SELECT 
@@ -380,7 +411,7 @@ WHERE Puesto_Ranking <= 3
 --Pregunta #7: ¿Quiénes son los 10 clientes de mayor valor dentro del segmento VIP (Cliente Vip) 
 --según su gasto acumulado, y cómo se posiciona el consumo individual de cada uno de ellos
 --frente al gasto promedio y al gasto máximo histórico de su misma categoría?
---
+-- 10 clientes de mayor valor según su gasto acumulado
 
 SELECT TOP 10 
    customer_unique_id AS ID_cliente,

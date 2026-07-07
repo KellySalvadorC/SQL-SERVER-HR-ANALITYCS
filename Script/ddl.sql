@@ -315,8 +315,7 @@ ORDER BY Porcentaje DESC
 --acumulados para el negocio, a qué categoría pertenecen y cuál es su porcentaje de participación sobre la venta total de la empresa?
 --Los 5 productos que generan mayor cantidad de ingresos
 
-WITH Top5IDs AS (
-    -- Paso 1: Filtramos los 5 IDs con más ingresos (esto es ultra rápido)
+WITH Top5IDs AS (   
     SELECT TOP 5
         product_id,
         COUNT(product_id) AS Cantidad_unidades_vendidas,
@@ -325,13 +324,11 @@ WITH Top5IDs AS (
     GROUP BY product_id
     ORDER BY Ingresos_totales DESC
 )
--- Paso 2: Buscamos la categoría solo para esos 5 productos y dividimos de forma directa
 SELECT 
     p.product_id,
 	p.product_category_name AS Categoria_Producto,
     t.Cantidad_unidades_vendidas,
     ROUND(t.Ingresos_totales, 2) AS Ingresos_totales,
-    -- Dividimos entre la suma global directamente aquí en una sola línea
     ROUND((t.Ingresos_totales / (SELECT SUM(price) FROM orders_items_dataset)) * 100, 2) AS Porcentaje_Participación
 FROM Top5IDs t
 INNER JOIN products_dataset p ON t.product_id = p.product_id
@@ -341,22 +338,22 @@ ORDER BY t.Ingresos_totales DESC;
 --a tiempo versus cuando se entrega retrasado con la fecha estimada?
 --Distribucion de reseña promedio cuando un pedido se encuentra retrasado y a tiempo
 
-With Entrega as(
-Select order_id,
-       Case
-	   When Datediff(DAY,order_delivered_customer_date,order_estimated_delivery_date)>= 0 then 'A tiempo'
-	   else 'Retrasado'
-	   end as Entrega_pedido
-from orders_dataset
+WITH Entrega AS(
+SELECT order_id,
+       CASE
+	   WHEN DATEDIFF(DAY,order_delivered_customer_date,order_estimated_delivery_date)>= 0 then 'A tiempo'
+	   ELSE 'Retrasado'
+	   END AS Entrega_pedido
+FROM orders_dataset
 )
 
-Select 
+SELECT
       e.Entrega_pedido,
-	  Avg(Convert(int,o.review_score)) as Reseña_promedio
-	  From order_reviews_dataset o 
+	  AVG(CONVERT(INT,o.review_score)) AS Reseña_promedio
+	  FROM order_reviews_dataset o 
 	  INNER JOIN Entrega e 
-	  On e.order_id = o.order_id
-	  Group by e.Entrega_pedido
+	  ON e.order_id = o.order_id
+	  GROUP BY e.Entrega_pedido
 
 
 --Pregunta #5: ¿Cuál es el total de ingresos y el porcentaje del total general de ventas que
@@ -365,10 +362,7 @@ Select
 
 WITH Metricas AS (
     SELECT 
-        -- Sumamos el total de las ventas que cumplen la condición de 1 o 2 estrellas
         SUM(o.price) AS Ingresos_Calificaciones_Bajas,
-        
-        -- Traemos el total absoluto de todas las ventas del negocio
         (SELECT SUM(price) FROM orders_items_dataset) AS Total_Ventas_Global
     FROM order_reviews_dataset r
     INNER JOIN orders_items_dataset o ON r.order_id = o.order_id
@@ -432,12 +426,10 @@ WITH Calculo_Retraso_Reseñas AS (
     SELECT 
         r.order_id AS ID_Pedido,
         r.review_score AS Puntaje_Reseña,
-        -- Traemos las fechas con subconsultas directas ultra rápidas sin hacer un JOIN completo
         DATEDIFF(DAY, 
             (SELECT o.order_estimated_delivery_date FROM orders_dataset o WHERE o.order_id = r.order_id), 
             (SELECT o.order_delivered_customer_date FROM orders_dataset o WHERE o.order_id = r.order_id)
         ) AS Dias_retraso,
-        -- Tu función analítica intacta particionando por el puntaje de la reseña
         ROW_NUMBER() OVER( 
             PARTITION BY r.review_score 
             ORDER BY DATEDIFF
@@ -447,11 +439,9 @@ WITH Calculo_Retraso_Reseñas AS (
             ) DESC
         ) AS Experiencia_Secuencial
     FROM order_reviews_dataset r
-    -- Filtramos directo en la tabla de reseñas para que procese menos datos (solo las notas bajas)
     WHERE r.review_score IN (1, 2)
 ) 
 
--- Mostramos los resultados finales de forma segura
 SELECT TOP 10
     ID_Pedido,
     Puntaje_Reseña,
@@ -461,7 +451,6 @@ SELECT TOP 10
     END AS Dias_Retraso_Real,
     Experiencia_Secuencial
 FROM Calculo_Retraso_Reseñas
-
 ORDER BY 
       Dias_retraso DESC
 
@@ -522,14 +511,13 @@ SELECT
 ),
 
 Clientes_Unificados AS (
-    -- Paso 2: Cruzamos con la tabla maestra de clientes para transformar el customer_id temporal en el customer_unique_id real
+    
     SELECT 
         c.customer_unique_id,
         pc.order_id
     FROM Pedidos_criticos pc
     INNER JOIN customers_dataset c ON pc.customer_id = c.customer_id
 ),
-
 
 Clientes_en_riesgo AS(
 SELECT 

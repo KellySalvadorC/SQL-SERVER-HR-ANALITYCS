@@ -226,3 +226,4 @@ GROUP BY Rango_Tiempo_Entrega
 ORDER BY Porcentaje DESC
 ```
 ![Pregunta2](pictures/Pregunta2.png)
+

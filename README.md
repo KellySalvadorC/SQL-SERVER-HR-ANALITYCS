@@ -281,6 +281,7 @@ SELECT
 ### Pregunta #5: ¿Cuál es el total de ingresos y el porcentaje del total general de ventas que provienen de pedidos con calificaciones bajas (scores de 1 y 2 )?
 
 ```sql
+--Total de ingresos y porcentaje de productos con calificaciones bajas
 WITH Metricas AS (
     SELECT 
         SUM(o.price) AS Ingresos_Calificaciones_Bajas,
@@ -297,4 +298,84 @@ FROM Metricas;
 ```
 ![Pregunta 5](pictures/Pregunta%205.png)
 
+### Pregunta #6: ¿Cuáles son los 3 productos que más se venden dentro de cada categoría de tamaño?
+```sql
+--Top 3 productos mas vendidos dentro de cateogria tamaños
 
+WITH Ventas_por_producto AS(
+SELECT p.Categoria_tamaño,
+       p.product_id,
+	   SUM(o.price) AS Ingresos_totales
+FROM   dim_product p
+INNER JOIN orders_items_dataset o
+ON p.product_id = o.product_id
+GROUP BY p.Categoria_tamaño,p.product_id
+)
+
+,Ranking_Productos AS(
+SELECT Categoria_tamaño,
+       product_id,
+       Ingresos_totales,
+	   RANK() OVER (
+	   PARTITION BY Categoria_tamaño 
+	   ORDER BY Ingresos_totales DESC
+	   ) AS Puesto_Ranking
+FROM  Ventas_por_producto 
+)
+
+SELECT  *  FROM Ranking_Productos
+WHERE Puesto_Ranking <= 3
+```
+[Pregunta6](pictures/Pregunta%206.png)
+
+### Pregunta #7: ¿Quiénes son los 10 clientes de mayor valor dentro del segmento VIP (Cliente Vip) según su gasto acumulado, y cómo se posiciona el consumo individual de cada uno de ellos frente al gasto promedio y al gasto máximo histórico de su misma categoría?
+
+```sql
+-- 10 clientes de mayor valor según su gasto acumulado
+
+SELECT TOP 10 
+   customer_unique_id AS ID_cliente,
+   Categoria,
+   Round(Total_gastado,2) AS Gasto_Cliente,
+   ROUND(AVG(Total_gastado) OVER (PARTITION BY Categoria),2) AS Gasto_Promedio,
+   ROUND(MAX(Total_gastado) OVER (PARTITION BY Categoria),2) AS Gasto_Maximo
+   FROM dim_comportamiento_customer
+   WHERE Categoria = 'Cliente Vip'
+   ORDER BY Total_gastado DESC
+```
+![Pregunta7](pictures/Pregunta%207.png)
+
+### Pregunta #8: ¿Cómo se listan consecutivamente las experiencias de entrega de los clientes que sufrieron los mayores tiempos de demora en la empresa, y cuál fue el puntaje de reseña (review_score) asociado a estos pedidos críticos?
+
+```sql
+WITH Calculo_Retraso_Reseñas AS (
+    SELECT 
+        r.order_id AS ID_Pedido,
+        r.review_score AS Puntaje_Reseña,
+        DATEDIFF(DAY, 
+            (SELECT o.order_estimated_delivery_date FROM orders_dataset o WHERE o.order_id = r.order_id), 
+            (SELECT o.order_delivered_customer_date FROM orders_dataset o WHERE o.order_id = r.order_id)
+        ) AS Dias_retraso,
+        ROW_NUMBER() OVER( 
+            PARTITION BY r.review_score 
+            ORDER BY DATEDIFF
+		        (DAY, 
+                (SELECT o.order_estimated_delivery_date FROM orders_dataset o WHERE o.order_id = r.order_id), 
+                (SELECT o.order_delivered_customer_date FROM orders_dataset o WHERE o.order_id = r.order_id)
+            ) DESC
+        ) AS Experiencia_Secuencial
+    FROM order_reviews_dataset r
+    WHERE r.review_score IN (1, 2)
+) 
+
+SELECT TOP 10
+    ID_Pedido,
+    Puntaje_Reseña,
+    CASE 
+        WHEN Dias_retraso > 0 THEN Dias_retraso 
+        ELSE 0 
+    END AS Dias_Retraso_Real,
+    Experiencia_Secuencial
+FROM Calculo_Retraso_Reseñas
+ORDER BY 
+      Dias_retraso DESC

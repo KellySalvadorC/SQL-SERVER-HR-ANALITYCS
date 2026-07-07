@@ -24,7 +24,7 @@ El conjunto de datos incluye cinco tablas que abarcan información de las ordene
 
 ![tabla](pictures\Tabla.png)
 
-## Tareas (Task)
+## Tareas
 
 En este análisis, ayudo a las áreas de Finanzas,Logística y Fidelización a responder lo siguiente:
 

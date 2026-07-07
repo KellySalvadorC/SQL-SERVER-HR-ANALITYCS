@@ -38,3 +38,84 @@ En este análisis, ayudo a las áreas de Finanzas,Logística y Fidelización a r
 8. **Reseñas en ordenes con retraso de entrega:**¿Cómo se listan consecutivamente las experiencias de entrega de los clientes que sufrieron los mayores tiempos de demora en la empresa, y cuál fue el puntaje de reseña asociado a estos pedidos críticos?
 9. **Pedidos con mayor valor monetario:**¿Cuáles son los 10 pedidos específicos que registraron el mayor valor monetario de compra y qué puesto ocupan en facturación dentro de su respectivo ciclo de distribución?
 10. **Impacto financiero:**¿Cuál es el impacto financiero real de los retrasos logísticos severos en la retención de nuestros clientes más valiosos, calculando cuántos clientes básicos,clientes Preferentes y Clientes Vip han experimentado entregas críticas (más de un mes) y qué volumen de ingresos totales está en riesgo de perderse por problemas operativos?
+
+## Limpieza de Datos
+
+Previamente de realizar el análisis, es importante asegurar que los datos esten limpios y no presenten duplicados.
+
+#### Valores Nulos o Faltantes
+
+Verifiqué la existencia de valores faltantes en los campos con clave primaria. No se encontraron valores nulos.
+
+```sql
+--Verificar valores faltantes en la tabla orders_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM orders_dataset
+WHERE order_id IS NULL 
+
+--Verificar valores faltantes en la tabla orders_items_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM orders_items_dataset
+WHERE order_id IS NULL 
+
+--Verificar valores faltantes en la tabla products_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM products_dataset
+WHERE product_id IS NULL 
+
+--Verificar valores faltantes en la tabla customers_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM customers_dataset
+WHERE customer_id IS NULL 
+
+--Verificar valores faltantes en la tabla order_reviews_dataset
+
+SELECT COUNT(*) AS Valores_faltantes
+FROM order_reviews_dataset
+WHERE review_id  IS NULL 
+```
+
+Verifiqué también valores nulos en las fechas de entrega(`order_delivered_customer_date`), aprobación(`order_approved_at`) y entrega a socio logístico(`order_delivered_carrier_date`) en la tabla orders_dataset. Detectándose valores nulos por motivos de cancelacíon de pedidos u otras razones.
+
+```sql
+--Verificar valores nulos en las fechas de entrega, aprobación y entrega a socio logístico en la tabla orders_dataset
+SELECT 
+    COUNT(*) AS total_pedidos,
+    SUM(CASE WHEN order_delivered_customer_date IS NULL THEN 1 ELSE 0 END) AS pedidos_sin_fecha_entrega,
+    SUM(CASE WHEN order_approved_at IS NULL THEN 1 ELSE 0 END) AS pedidos_sin_fecha_aprobacion,
+	SUM(CASE WHEN order_delivered_carrier_date IS NULL THEN 1 ELSE 0 END) AS pedidos_sin_fecha_entrega_logistico
+FROM orders_dataset;
+```
+
+A continuación, es vital asegurarse de que no se presente filas duplicadas. En este caso no se encontraron filas duplicadas.
+
+```sql
+--Verificar valores duplicados en la tabla orders_dataset
+
+SELECT order_id, count(*)
+FROM orders_dataset
+GROUP BY order_id
+HAVING count(*) > 1
+
+--Verificar valores duplicados en la tabla products_dataset
+
+SELECT product_id, count(*)
+FROM products_dataset
+GROUP BY product_id
+HAVING count(*) >1 
+
+--Verificar valores duplicados en la tabla customers_dataset
+
+SELECT customer_id, count(*)
+FROM customers_dataset
+GROUP BY customer_id
+HAVING count(*) > 1
+```
+
+
+
+

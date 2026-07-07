@@ -227,3 +227,74 @@ ORDER BY Porcentaje DESC
 ```
 ![Pregunta2](pictures/Pregunta2.png)
 
+
+### Pregunta #3: ¿Cuáles son los 5 productos individuales (product_id) que generan la mayor cantidad de ingresos acumulados para el negocio, a qué categoría pertenecen y cuál es su porcentaje de participación sobre la venta total de la empresa?
+
+```sql
+--Los 5 productos que generan mayor cantidad de ingresos
+
+WITH Top5IDs AS (   
+    SELECT TOP 5
+        product_id,
+        COUNT(product_id) AS Cantidad_unidades_vendidas,
+        SUM(price) AS Ingresos_totales
+    FROM orders_items_dataset
+    GROUP BY product_id
+    ORDER BY Ingresos_totales DESC
+)
+SELECT 
+    p.product_id,
+	p.product_category_name AS Categoria_Producto,
+    t.Cantidad_unidades_vendidas,
+    ROUND(t.Ingresos_totales, 2) AS Ingresos_totales,
+    ROUND((t.Ingresos_totales / (SELECT SUM(price) FROM orders_items_dataset)) * 100, 2) AS Porcentaje_Participación
+FROM Top5IDs t
+INNER JOIN products_dataset p ON t.product_id = p.product_id
+ORDER BY t.Ingresos_totales DESC;
+```
+
+![Pregunta3](pictures/pregunta3.png)
+
+### Pregunta #4: ¿Cómo se distribuye el puntaje de reseña promedio cuando un pedido se entrega a tiempo versus cuando se entrega retrasado con la fecha estimada?
+
+```sql
+WITH Entrega AS(
+SELECT order_id,
+       CASE
+	   WHEN DATEDIFF(DAY,order_delivered_customer_date,order_estimated_delivery_date)>= 0 then 'A tiempo'
+	   ELSE 'Retrasado'
+	   END AS Entrega_pedido
+FROM orders_dataset
+)
+
+SELECT
+      e.Entrega_pedido,
+	  AVG(CONVERT(INT,o.review_score)) AS Reseña_promedio
+	  FROM order_reviews_dataset o 
+	  INNER JOIN Entrega e 
+	  ON e.order_id = o.order_id
+	  GROUP BY e.Entrega_pedido
+```
+
+![Pregunta4](pictures/Pregunta4.png)
+
+### Pregunta #5: ¿Cuál es el total de ingresos y el porcentaje del total general de ventas que provienen de pedidos con calificaciones bajas (scores de 1 y 2 )?
+
+```sql
+WITH Metricas AS (
+    SELECT 
+        SUM(o.price) AS Ingresos_Calificaciones_Bajas,
+        (SELECT SUM(price) FROM orders_items_dataset) AS Total_Ventas_Global
+    FROM order_reviews_dataset r
+    INNER JOIN orders_items_dataset o ON r.order_id = o.order_id
+    WHERE r.review_score IN (1, 2)
+)
+
+SELECT 
+    Ingresos_Calificaciones_Bajas,
+    ROUND((Ingresos_Calificaciones_Bajas / Total_Ventas_Global) * 100, 2) AS Porcentaje_Del_Total_Global
+FROM Metricas;
+```
+![Pregunta 5](pictures/Pregunta%205.png)
+
+

@@ -379,6 +379,7 @@ SELECT TOP 10
 FROM Calculo_Retraso_Reseñas
 ORDER BY 
       Dias_retraso DESC
+```
 
 ![Pregunta8](pictures/Pregunta%208.png)
 

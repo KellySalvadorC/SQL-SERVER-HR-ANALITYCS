@@ -22,7 +22,7 @@ Los datos originales, junto con una explicación de cada columna, se pueden enco
 
 El conjunto de datos incluye cinco tablas que abarcan información de las ordenes, productos,clientes, ventas y satisfacción del cliente,distribuidos en más de 99,000 registros y 36 columnas
 
-![tabla](pictures\Tabla.png)
+![tabla](pictures/Tabla.png)
 
 ## Tareas
 

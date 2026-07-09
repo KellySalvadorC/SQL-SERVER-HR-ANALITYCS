@@ -233,11 +233,13 @@ ORDER BY Porcentaje DESC
 ```
 ![Pregunta2](pictures/Pregunta2.png)
 
-Vemos que el mayor porcentaje del total de ordenes son las ordenes que llegan en un rango de 1 a 2 semanas (39.37%) siguiendole las que llegan en menos de una semana (31.86%) lo cual es un buen resultado.Sin embargo,existe un 4.45% de pedidos críticos que demoran más de un mes
+Vemos que el mayor porcentaje del total de ordenes son las ordenes que llegan en un rango de 1 a 2 semanas (39.37%) siguiendole las que llegan en menos de una semana (31.86%) lo cual es un buen resultado. Sin embargo,existe un 4.45% de pedidos críticos que demoran más de un mes
 
 Se recomienda auditar la cadena de suministro, identificandose si el retraso se refiere a la dispersión geográfica, quiebres de stock en almacén o ineficiencias de las empresas de transporte
 
 ### Pregunta #3: ¿Cuáles son los 5 productos individuales (product_id) que generan la mayor cantidad de ingresos acumulados para el negocio, a qué categoría pertenecen y cuál es su porcentaje de participación sobre la venta total de la empresa?
+
+Utilicé una CTE combinada con la claúsula TOP 5 para los productos de mayor rendimiento financiero basados en el SUM(price).En la consulta principal utilicé una subconsulta en la división (SELECT SUM(price)...) para calcular de forma directa el peso porcentual de cada uno de estos 5 productos sobre la facturación global de la empresa, midiendo así su nivel de concentración en las ventas."
 
 ```sql
 --Los 5 productos que generan mayor cantidad de ingresos

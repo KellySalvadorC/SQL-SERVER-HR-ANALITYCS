@@ -204,6 +204,7 @@ El ingreso total es 13,221,498.11 unidades monetarias, el total de pedidos 96478
 
 ### Pregunta #2: ¿Qué porcentaje del total de órdenes se entrega dentro de la primera, segunda, tercera o cuarta semana desde la compra?
 
+Para este análisis, estructuré el código mediante una CTE (WITH) utilizando una condicional CASE WHEN junto con la función DATEDIFF. Esto me permitió calcular los días transcurridos entre la compra y la entrega, clasificando  cada orden dentro de un rango semanal de distribución. Luego, en la consulta principal, utilicé una función de ventana (SUM(...) OVER()) para calcular dinámicamente el porcentaje que representa cada rango sobre el total global
 ```sql
 --Hallar porcentaje del total de ordenes de entrega
 
@@ -232,6 +233,9 @@ ORDER BY Porcentaje DESC
 ```
 ![Pregunta2](pictures/Pregunta2.png)
 
+Vemos que el mayor porcentaje del total de ordenes son las ordenes que llegan en un rango de 1 a 2 semanas (39.37%) siguiendole las que llegan en menos de una semana (31.86%) lo cual es un buen resultado.Sin embargo,existe un 4.45% de pedidos críticos que demoran más de un mes
+
+Se recomienda auditar la cadena de suministro, identificandose si el retraso se refiere a la dispersión geográfica, quiebres de stock en almacén o ineficiencias de las empresas de transporte
 
 ### Pregunta #3: ¿Cuáles son los 5 productos individuales (product_id) que generan la mayor cantidad de ingresos acumulados para el negocio, a qué categoría pertenecen y cuál es su porcentaje de participación sobre la venta total de la empresa?
 

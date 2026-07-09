@@ -173,8 +173,9 @@ Esta estructura relacional permite cruzar eficientemente variables operativas (f
 
 ## Análisis Exploratorio de Datos e Insights
 
-### Pregunta #1: ¿Cuál es el volumen total de ventas, el número de pedidos concretados y el ticket promedio global del negocio?
+### Pregunta #1: ¿Cuál es el ingreso total, el número de pedidos concretados y el ticket promedio global del negocio?
 
+Para responder a la consulta, estructuré el código usando una CTE (WITH) para mantenerlo limpio.Apliqué el filtro WHERE order_status = 'delivered', asegurando que el volumen de ventas y el ticket promedio se calculen solo sobre pedidos reales y concretados, excluyendo cancelaciones. Además, utilicé COUNT(DISTINCT order_id) para garantizar el conteo exacto de pedidos únicos, evitando duplicados cuando un mismo pedido contiene varios artículos
 
 ```sql
 --Volumen total de ventas, número de pedidos concretados y ticket promedio global
@@ -195,6 +196,10 @@ SELECT
 FROM Resumen_Ventas_Reales;
 ```
 ![Pregunta1](pictures/Pregunta%201.png)
+
+El ingreso total es 13,221,498.11 unidades monetarias, el total de pedidos 96478 y el ticket promedio es 137.04 u.m.
+
+
 
 
 ### Pregunta #2: ¿Qué porcentaje del total de órdenes se entrega dentro de la primera, segunda, tercera o cuarta semana desde la compra?

@@ -469,6 +469,9 @@ FROM Clasificacion_tiempo_entrega
 
 ![Pregunta9](pictures/Pregunta%209.png)
 
+Podemos ver que todos los pedidos con mayor valor monetario se concentran en el rango de entrega de 1 a 2 semanas. Esto indica que el flujo logístico actual responde con eficiencia  ante transacciones de gran volumen financiero.
+
+Se recomienda aplicar estrategias para cualquier pedido que supere un valor alto para que así estas ordenes sean priorizados en el proceso de distribución para asegurar que sigan cumpliendo consistentemente este ciclo de 1 a 2 semanas o incluso reducirlo a menos de una semana.
 
 
 ### Pregunta #10: ¿Cuál es el impacto financiero real de los retrasos logísticos severos en la retención de nuestros clientes más valiosos, calculando cuántos clientes básicos,clientes Preferentes y Clientes Vip han experimentado entregas críticas (más de un mes) y qué volumen de ingresos totales está en riesgo de perderse por problemas operativos?

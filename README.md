@@ -175,7 +175,7 @@ Esta estructura relacional permite cruzar eficientemente variables operativas (f
 
 ### Pregunta #1: ¿Cuál es el ingreso total, el número de pedidos concretados y el ticket promedio global del negocio?
 
-Para responder a la consulta, estructuré el código usando una CTE (WITH) para mantenerlo limpio.Apliqué el filtro WHERE order_status = 'delivered', asegurando que el volumen de ventas y el ticket promedio se calculen solo sobre pedidos reales y concretados, excluyendo cancelaciones. Además, utilicé COUNT(DISTINCT order_id) para garantizar el conteo exacto de pedidos únicos, evitando duplicados cuando un mismo pedido contiene varios artículos
+Para responder a la consulta, estructuré el código usando una CTE (WITH) para mantenerlo limpio.Apliqué el filtro WHERE order_status = 'delivered', asegurando que el volumen de ventas y el ticket promedio se calculen solo sobre pedidos reales y concretados, excluyendo cancelaciones. Además, utilicé COUNT(DISTINCT order_id) para garantizar el conteo exacto de pedidos únicos, evitando duplicados cuando un mismo pedido contiene varios artículos.
 
 ```sql
 --Volumen total de ventas, número de pedidos concretados y ticket promedio global
@@ -201,7 +201,7 @@ El ingreso total es 13,221,498.11 unidades monetarias, el total de pedidos 96478
 
 ### Pregunta #2: ¿Qué porcentaje del total de órdenes se entrega dentro de la primera, segunda, tercera o cuarta semana desde la compra?
 
-Para este análisis, estructuré el código mediante una CTE (WITH) utilizando una condicional CASE WHEN junto con la función DATEDIFF. Esto me permitió calcular los días transcurridos entre la compra y la entrega, clasificando  cada orden dentro de un rango semanal de distribución. Luego, en la consulta principal, utilicé una función de ventana (SUM(...) OVER()) para calcular dinámicamente el porcentaje que representa cada rango sobre el total global
+Para este análisis, estructuré el código mediante una CTE (WITH) utilizando una condicional CASE WHEN junto con la función DATEDIFF. Esto me permitió calcular los días transcurridos entre la compra y la entrega, clasificando  cada orden dentro de un rango semanal de distribución. Luego, en la consulta principal, utilicé una función de ventana (SUM(...) OVER()) para calcular dinámicamente el porcentaje que representa cada rango sobre el total global.
 ```sql
 --Hallar porcentaje del total de ordenes de entrega
 
@@ -230,9 +230,9 @@ ORDER BY Porcentaje DESC
 ```
 ![Pregunta2](pictures/Pregunta2.png)
 
-Vemos que el mayor porcentaje del total de ordenes son las ordenes que llegan en un rango de 1 a 2 semanas (39.37%) siguiendole las que llegan en menos de una semana (31.86%) lo cual es un buen resultado. Sin embargo,existe un 4.45% de pedidos críticos que demoran más de un mes
+Vemos que el mayor porcentaje del total de ordenes son las ordenes que llegan en un rango de 1 a 2 semanas (39.37%) siguiendole las que llegan en menos de una semana (31.86%) lo cual es un buen resultado. Sin embargo,existe un 4.45% de pedidos críticos que demoran más de un mes.
 
-Se recomienda auditar la cadena de suministro, identificandose si el retraso se refiere a la dispersión geográfica, quiebres de stock en almacén o ineficiencias de las empresas de transporte
+Se recomienda auditar la cadena de suministro, identificandose si el retraso se refiere a la dispersión geográfica, quiebres de stock en almacén o ineficiencias de las empresas de transporte.
 
 ### Pregunta #3: ¿Cuáles son los 5 productos individuales (product_id) que generan la mayor cantidad de ingresos acumulados para el negocio, a qué categoría pertenecen y cuál es su porcentaje de participación sobre la venta total de la empresa?
 
@@ -265,7 +265,7 @@ ORDER BY t.Ingresos_totales DESC;
 
 El análisis del Top 5 de productos con mayores ingresos acumulados revela un mercado altamente fragmentado. Ningún producto individual supera el 0.47% de participación sobre la venta total de la empresa.Esto demuestra que la estabilidad financiera del negocio no depende de "productos estrella" únicos, sino de un catálogo diversificado que genera volumen de manera distribuida.
 
-Se debe priorizar el control de stock de los productos de alta rotación , asegurando un stock de seguridad óptimo para evitar quiebres de inventario que afecten el flujo de caja, dado su alto volumen de salida
+Se debe priorizar el control de stock de los productos de alta rotación , asegurando un stock de seguridad óptimo para evitar quiebres de inventario que afecten el flujo de caja, dado su alto volumen de salida.
 
 
 ### Pregunta #4: ¿Cómo se distribuye el puntaje de reseña promedio cuando un pedido se entrega a tiempo versus cuando se entrega retrasado con la fecha estimada?
@@ -297,7 +297,7 @@ El análisis demuestra una penalización drástica en la satisfacción del clien
 
 ### Pregunta #5: ¿Cuál es el total de ingresos y el porcentaje del total general de ventas que provienen de pedidos con calificaciones bajas (scores de 1 y 2 )?
 
-Se utilizó tabla hecha con WITH CTE que consolida los datos con un INNER JOIN entre la tablas `order_reviews_dataset` y `orders_items_dataset` y filtrando los puntajes críticos, también se utilizó una subconsulta para obtener el total de ventas de la empresa y luego calcular peso porcentual (ROUND) para ver que proporción del dinero del negocio está en riesgo debido a una mala experiencia de compra
+Se utilizó tabla hecha con WITH CTE que consolida los datos con un INNER JOIN entre la tablas `order_reviews_dataset` y `orders_items_dataset` y filtrando los puntajes críticos, también se utilizó una subconsulta para obtener el total de ventas de la empresa y luego calcular peso porcentual (ROUND) para ver que proporción del dinero del negocio está en riesgo debido a una mala experiencia de compra.
 
 ```sql
 --Total de ingresos y porcentaje de productos con calificaciones bajas
@@ -322,6 +322,9 @@ Los matriculados muestran un preocupante 16.64% de los ingresos totales de la em
 Se recomienda analizar la causa raíz para identificar si el problema es logístico o de calidad del proveedor.
 
 ### Pregunta #6: ¿Cuáles son los 3 productos que más se venden dentro de cada categoría de tamaño?
+
+Se utilizó WITH CTE donde se  unieron las tablas de `dim_product` y `orders_items_dataset` para sumar la facturación por artículo; luego, se aplicó la función de ventana RANK() particionada por el tamaño del producto para clasificar el rendimiento financiero de forma independiente dentro de cada grupo, filtrando finalmente los resultados con un WHERE Puesto_Ranking <= 3 para extraer únicamente los elementos top de cada segmento.
+
 ```sql
 --Top 3 productos mas vendidos dentro de cateogria tamaños
 
@@ -351,7 +354,13 @@ WHERE Puesto_Ranking <= 3
 ```
 ![Pregunta6](pictures/Pregunta%206.png)
 
+El ranking muestra que los productos de tamaño Pequeño y Mediano lideran la recaudación del negocio, destacando un artículo pequeño con el mayor ingreso individual (63,885.00). Además, el segmento Mediano muestra un rendimiento sumamente competitivo y equilibrado, ya que sus tres primeros puestos superan individualmente los 47,000 en facturación. En contraste, la categoría Grande registra los ingresos más bajos en su Top 3, evidenciando que los productos de menores dimensiones son los principales motores financieros de la plataforma.
+
+Desde una perspectiva logística y comercial, se recomienda optimizar los espacios de almacenamiento priorizando el stock de alta rotación para productos pequeños y medianos, ya que maximizan la rentabilidad por metro cúbico.
+
 ### Pregunta #7: ¿Quiénes son los 10 clientes de mayor valor dentro del segmento VIP (Cliente Vip) según su gasto acumulado, y cómo se posiciona el consumo individual de cada uno de ellos frente al gasto promedio y al gasto máximo histórico de su misma categoría?
+
+Se utilizaron las funciones de ventana AVG() y MAX() combinadas con la cláusula OVER (PARTITION BY Categoria), lo que permitió calcular dinámicamente el gasto promedio y el gasto máximo histórico de la categoría VIP.
 
 ```sql
 -- 10 clientes de mayor valor según su gasto acumulado
@@ -368,9 +377,14 @@ SELECT TOP 10
 ```
 ![Pregunta7](pictures/Pregunta%207.png)
 
+El análisis revela una alta concentración de valor en el Top 10 de clientes VIP, cuyo consumo supera drásticamente el comportamiento del resto de su segmento. Mientras que el gasto promedio de la categoría VIP es de 1,627.59, el cliente del décimo puesto gasta casi el triple (4,590.00). Destaca de manera excepcional el cliente del primer puesto, quien registra un consumo de 13,440.00, posicionándose como el máximo histórico absoluto de la empresa y superando en más de 8 veces el promedio VIP, lo que evidencia la existencia de compradores altamente leales y rentables para el negocio
+
 ### Pregunta #8: ¿Cómo se listan consecutivamente las experiencias de entrega de los clientes que sufrieron los mayores tiempos de demora en la empresa, y cuál fue el puntaje de reseña (review_score) asociado a estos pedidos críticos?
 
+Se usó la función de ventana ROW NUMBER() OVER(PARTITION BY ....) para enumerar y ordenar de forma consecutiva cada una de las experiencias de entrega de los clientes, agrupandolas de forma independiente por su puntaje de reseña y ordenándolas de mayor a menor según los días de retraso calculados con DATEDIFF.
+
 ```sql
+--Ordenes que sufrieron mayores tiempos de demora
 WITH Calculo_Retraso_Reseñas AS (
     SELECT 
         r.order_id AS ID_Pedido,
@@ -403,6 +417,8 @@ FROM Calculo_Retraso_Reseñas
 ORDER BY 
       Dias_retraso DESC
 ```
+
+
 
 ![Pregunta8](pictures/Pregunta%208.png)
 

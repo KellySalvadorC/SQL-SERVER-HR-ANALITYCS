@@ -199,9 +199,6 @@ FROM Resumen_Ventas_Reales;
 
 El ingreso total es 13,221,498.11 unidades monetarias, el total de pedidos 96478 y el ticket promedio es 137.04 u.m.
 
-
-
-
 ### Pregunta #2: ¿Qué porcentaje del total de órdenes se entrega dentro de la primera, segunda, tercera o cuarta semana desde la compra?
 
 Para este análisis, estructuré el código mediante una CTE (WITH) utilizando una condicional CASE WHEN junto con la función DATEDIFF. Esto me permitió calcular los días transcurridos entre la compra y la entrega, clasificando  cada orden dentro de un rango semanal de distribución. Luego, en la consulta principal, utilicé una función de ventana (SUM(...) OVER()) para calcular dinámicamente el porcentaje que representa cada rango sobre el total global
@@ -239,7 +236,7 @@ Se recomienda auditar la cadena de suministro, identificandose si el retraso se 
 
 ### Pregunta #3: ¿Cuáles son los 5 productos individuales (product_id) que generan la mayor cantidad de ingresos acumulados para el negocio, a qué categoría pertenecen y cuál es su porcentaje de participación sobre la venta total de la empresa?
 
-Utilicé una CTE combinada con la claúsula TOP 5 para los productos de mayor rendimiento financiero basados en el SUM(price).En la consulta principal utilicé una subconsulta en la división (SELECT SUM(price)...) para calcular de forma directa el peso porcentual de cada uno de estos 5 productos sobre la facturación global de la empresa, midiendo así su nivel de concentración en las ventas."
+Utilicé una CTE combinada con la claúsula TOP 5 para los productos de mayor rendimiento financiero basados en el SUM(price).En la consulta principal utilicé una subconsulta en la división (SELECT SUM(price)...) para calcular de forma directa el peso porcentual de cada uno de estos 5 productos sobre la facturación global de la empresa, midiendo así su nivel de concentración en las ventas.
 
 ```sql
 --Los 5 productos que generan mayor cantidad de ingresos
@@ -266,7 +263,14 @@ ORDER BY t.Ingresos_totales DESC;
 
 ![Pregunta3](pictures/pregunta3.png)
 
+El análisis del Top 5 de productos con mayores ingresos acumulados revela un mercado altamente fragmentado. Ningún producto individual supera el 0.47% de participación sobre la venta total de la empresa.Esto demuestra que la estabilidad financiera del negocio no depende de "productos estrella" únicos, sino de un catálogo diversificado que genera volumen de manera distribuida.
+
+Se debe priorizar el control de stock de los productos de alta rotación , asegurando un stock de seguridad óptimo para evitar quiebres de inventario que afecten el flujo de caja, dado su alto volumen de salida
+
+
 ### Pregunta #4: ¿Cómo se distribuye el puntaje de reseña promedio cuando un pedido se entrega a tiempo versus cuando se entrega retrasado con la fecha estimada?
+
+Se utilizó WITH (CTE) junto con la función DATEDIFF para clasificar los pedidos en 'A tiempo' o 'Retrasado' según su fecha estimada; posteriormente, mediante un INNER JOIN, se cruzaron estos datos con la tabla `order_reviews_dataset` para convertir el puntaje a entero (CONVERT) y calcular su promedio (AVG) agrupado por cada estado de entrega, permitiendo cuantificar la caída exacta en la calificación generada por los retrasos.
 
 ```sql
 WITH Entrega AS(
@@ -289,7 +293,11 @@ SELECT
 
 ![Pregunta4](pictures/Pregunta4.png)
 
+El análisis demuestra una penalización drástica en la satisfacción del cliente a causa de los retrasos logísticos.
+
 ### Pregunta #5: ¿Cuál es el total de ingresos y el porcentaje del total general de ventas que provienen de pedidos con calificaciones bajas (scores de 1 y 2 )?
+
+Se utilizó tabla hecha con WITH CTE que consolida los datos con un INNER JOIN entre la tablas `order_reviews_dataset` y `orders_items_dataset` y filtrando los puntajes críticos, también se utilizó una subconsulta para obtener el total de ventas de la empresa y luego calcular peso porcentual (ROUND) para ver que proporción del dinero del negocio está en riesgo debido a una mala experiencia de compra
 
 ```sql
 --Total de ingresos y porcentaje de productos con calificaciones bajas
@@ -308,6 +316,10 @@ SELECT
 FROM Metricas;
 ```
 ![Pregunta 5](pictures/Pregunta%205.png)
+
+Los matriculados muestran un preocupante 16.64% de los ingresos totales de la empresa (equivalente a más de 2.26 millones) proviene de pedidos asociados a experiencias de compra negativas.
+
+Se recomienda analizar la causa raíz para identificar si el problema es logístico o de calidad del proveedor.
 
 ### Pregunta #6: ¿Cuáles son los 3 productos que más se venden dentro de cada categoría de tamaño?
 ```sql

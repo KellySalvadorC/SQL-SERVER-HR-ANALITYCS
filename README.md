@@ -418,11 +418,15 @@ ORDER BY
       Dias_retraso DESC
 ```
 
-
-
 ![Pregunta8](pictures/Pregunta%208.png)
 
+Se visualizan retrasos entre 112 y 188 dias. A nivel del comportamiento del cliente lal mayoria de estos pedidos terminaron en calificaciones de 1 estrella, confirmando que las demoras severas perjudican la experiencia de compra y conducen al rechazo total de la marca o producto por parte del cliente.
+
+Se recomienda urgentemente realizar auditorias por empresa de transporte y región geográfica para identificar que socios logísticos o rutas provocaron estos retrasos.
+
 ### Pregunta #9: ¿Cuáles son los 10 pedidos específicos que registraron el mayor valor monetario de compra y qué puesto ocupan en facturación dentro de su respectivo ciclo de distribución?
+
+Primero consolidé el valor total por orden y clasifiqué los tiempos de entrega en rangos semanales mediante DATEDIFF; luego puse la función de ventana RANK() OVER (PARTITION BY Rango_tiempo_entrega ORDER BY Valor_Total_Pedido DESC), la cual fue clave para generar rankings financieros independientes y dinámicos dentro de cada grupo de tiempo sin mezclar los datos, extrayendo finalmente el Top 10 de mayor facturación.
 
 ```sql
 --Los 10 pedidos que registraron mayor valor monetario y puesto, rango de tiempo de entrega y ranking 
@@ -464,6 +468,8 @@ FROM Clasificacion_tiempo_entrega
 ```
 
 ![Pregunta9](pictures/Pregunta%209.png)
+
+
 
 ### Pregunta #10: ¿Cuál es el impacto financiero real de los retrasos logísticos severos en la retención de nuestros clientes más valiosos, calculando cuántos clientes básicos,clientes Preferentes y Clientes Vip han experimentado entregas críticas (más de un mes) y qué volumen de ingresos totales está en riesgo de perderse por problemas operativos?
 

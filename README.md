@@ -564,11 +564,11 @@ Se recomienda rediseñar la prioridad de procesamiento de pedidos en almacén. L
 
 - El análisis proporcionó información  para mejorar el proceso de distribución, retener clientes de alto valor y aumentar la rentabilidad del negocio
 
-- Se demostró una correlación directa y drástica entre los tiempos de entrega y la percepción de satisfacción del cliente.
+- Se demostró una correlación directa entre los tiempos de entrega y la percepción de satisfacción del cliente.
 
-- Se comprobó que insatisfacción del cliente representa un riesgo financiero alarmante para la estabilidad del e-commerce, acumulando el 16.64% de los ingresos totales de la compañía.
+- Se comprobó que insatisfacción del cliente representa un riesgo financiero alarmante para la estabilidad del e-commerce.
 
-- Se identificó una asimetría y una alta concentración de valor en la cúspide de la cartera de clientes.
+- Se identificó que las ventas están concentradas en muy pocos clientes, es decir, que un grupo muy pequeño de compradores en la cima es el que generó la mayor parte de los ingresos de la empresa.
 
 - Se detectó que los ingresos de la empresa son muy estables porque las ventas no dependen de un solo producto estrella.
 

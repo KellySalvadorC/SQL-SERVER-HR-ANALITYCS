@@ -243,6 +243,7 @@ GROUP BY Rango_Tiempo_Entrega
 ORDER BY Porcentaje DESC
 ```
 ![Pregunta2](pictures/Pregunta2.png)
+
 _Tabla de porcentaje de ordenes según tiempo de entrega_
 
 Vemos que el mayor porcentaje del total de ordenes son las ordenes que llegan en un rango de 1 a 2 semanas (39.37%) siguiendole las que llegan en menos de una semana (31.86%) lo cual es un buen resultado. Sin embargo,existe un 4.45% de pedidos críticos que demoran más de un mes.
@@ -277,6 +278,7 @@ ORDER BY t.Ingresos_totales DESC;
 ```
 
 ![Pregunta3](pictures/pregunta3.png)
+
 _Tabla de productos que generan mayor cantidad de ingresos_
 
 El análisis del Top 5 de productos con mayores ingresos acumulados revela un mercado altamente fragmentado. Ningún producto individual supera el 0.47% de participación sobre la venta total de la empresa.Esto demuestra que la estabilidad financiera del negocio no depende de "productos estrella" únicos, sino de un catálogo diversificado que genera volumen de manera distribuida.
@@ -308,6 +310,7 @@ SELECT
 ```
 
 ![Pregunta4](pictures/Pregunta4.png)
+
 _Tabla de promedio de reseña según tiempo de entrega_
 
 El análisis demuestra una penalización drástica en la satisfacción del cliente a causa de los retrasos logísticos.
@@ -333,6 +336,7 @@ SELECT
 FROM Metricas;
 ```
 ![Pregunta 5](pictures/Pregunta%205.png)
+_Tabla de Ingresos de pedidos con calificaciones bajas_
 
 Los matriculados muestran un preocupante 16.64% de los ingresos totales de la empresa (equivalente a más de 2.26 millones) proviene de pedidos asociados a experiencias de compra negativas.
 

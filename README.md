@@ -405,7 +405,7 @@ SELECT TOP 10
 
 _Tabla de clientes Vip con mayor gasto acumulado_
 
-El análisis revela una alta concentración de valor en el Top 10 de clientes VIP, cuyo consumo supera drásticamente el comportamiento del resto de su segmento. Mientras que el gasto promedio de la categoría VIP es de 1,627.59, el cliente del décimo puesto gasta casi el triple (4,590.00). Destaca de manera excepcional el cliente del primer puesto, quien registra un consumo de 13,440.00, posicionándose como el máximo histórico absoluto de la empresa y superando en más de 8 veces el promedio VIP, lo que evidencia la existencia de compradores altamente leales y rentables para el negocio
+El análisis revela una alta concentración de valor en el Top 10 de clientes VIP, cuyo consumo supera drásticamente el comportamiento del resto de su segmento. Se visualiza una gran diferencia entre el gasto de los 10 clientes y el gasto promedio de la categoría VIP que es de 1,627.59. También podemos ver que estaca de manera excepcional el cliente del primer puesto, quien registra un consumo de 13,440.00, posicionándose como el máximo histórico absoluto de la empresa y superando en más de 8 veces el promedio VIP, lo que evidencia la existencia de compradores altamente leales y rentables para el negocio.
 
 ### Pregunta #8: ¿Cómo se listan consecutivamente las experiencias de entrega de los clientes que sufrieron los mayores tiempos de demora en la empresa, y cuál fue el puntaje de reseña (review_score) asociado a estos pedidos críticos?
 

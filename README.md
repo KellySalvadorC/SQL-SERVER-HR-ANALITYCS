@@ -209,6 +209,7 @@ SELECT
 FROM Resumen_Ventas_Reales;
 ```
 ![Pregunta1](pictures/Pregunta%201.png)
+
 _Tabla de Ingreso total, Total de pedidos y Ticket promedio_
 
 El ingreso total es 13,221,498.11 unidades monetarias, el total de pedidos 96478 y el ticket promedio es 137.04 u.m.

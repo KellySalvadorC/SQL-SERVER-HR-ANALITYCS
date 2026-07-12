@@ -341,7 +341,7 @@ FROM Metricas;
 
 _Tabla de Ingresos de pedidos con calificaciones bajas_
 
-Los ingresos de pedidos con reseñas bajas muestran un preocupante 16.64% de los ingresos totales de la empresa (equivalente a más de 2.26 millones).
+Los ingreso de pedidos con reseñas bajas muestran un preocupante 16.64% de los ingresos totales de la empresa (equivalente a más de 2.26 millones).
 
 Se recomienda analizar la causa raíz para identificar si el problema es logístico o de calidad del proveedor.
 

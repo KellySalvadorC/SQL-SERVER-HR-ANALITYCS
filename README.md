@@ -1,5 +1,5 @@
 ![imagen de banner](pictures/baneer%20vertical.png)
-# Proyecto SQL: Optimización Operativa y Financiera en E-Commerce - Análisis Integrado de Logística, Ventas y Experiencia del cliente
+# Proyecto SQL: Análisis Integrado de Logística, Ventas y Experiencia del cliente en una empresa de E-commerce
 
 ## Descripción del Proyecto
 
@@ -22,7 +22,7 @@ _Utilizar SQL dentro de SQL Server Management Studio (SSMS) para procesar y cons
 
 Los datos originales, junto con una explicación de cada columna, se pueden encontrar [aquí](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?resource=download&select=olist_orders_dataset.csv).
 
-El conjunto de datos incluye cinco tablas que abarcan información de las ordenes, productos,clientes, ventas y satisfacción del cliente,distribuidos en más de 99,000 registros y 36 columnas
+El conjunto de datos incluye cinco tablas: orders_dataset(tabla de ordenes),orders_items_dataset(tabla d eitems del pedido) que abarcan información de las ordenes, productos,clientes, ventas y satisfacción del cliente,distribuidos en más de 99,000 registros por tabla  y 36 columnas en total 
 
 ![tabla](pictures/Tabla.png)
 
@@ -270,7 +270,7 @@ Se debe priorizar el control de stock de los productos de alta rotación , asegu
 
 ### Pregunta #4: ¿Cómo se distribuye el puntaje de reseña promedio cuando un pedido se entrega a tiempo versus cuando se entrega retrasado con la fecha estimada?
 
-Se utilizó WITH (CTE) junto con la función DATEDIFF para clasificar los pedidos en 'A tiempo' o 'Retrasado' según su fecha estimada; posteriormente, mediante un INNER JOIN, se cruzaron estos datos con la tabla `order_reviews_dataset` para convertir el puntaje a entero (CONVERT) y calcular su promedio (AVG) agrupado por cada estado de entrega, permitiendo cuantificar la caída exacta en la calificación generada por los retrasos.
+Se utilizó WITH (CTE) junto con la función DATEDIFF para clasificar los pedidos en 'A tiempo' o 'Retrasado' según su fecha estimada; posteriormente, mediante un INNER JOIN, se cruzaron estos datos con la tabla order_reviews_dataset para convertir el puntaje a entero (CONVERT) y calcular su promedio (AVG) agrupado por cada estado de entrega, permitiendo cuantificar la caída exacta en la calificación generada por los retrasos.
 
 ```sql
 WITH Entrega AS(
@@ -297,7 +297,7 @@ El análisis demuestra una penalización drástica en la satisfacción del clien
 
 ### Pregunta #5: ¿Cuál es el total de ingresos y el porcentaje del total general de ventas que provienen de pedidos con calificaciones bajas (scores de 1 y 2 )?
 
-Se utilizó tabla hecha con WITH CTE que consolida los datos con un INNER JOIN entre la tablas `order_reviews_dataset` y `orders_items_dataset` y filtrando los puntajes críticos, también se utilizó una subconsulta para obtener el total de ventas de la empresa y luego calcular peso porcentual (ROUND) para ver que proporción del dinero del negocio está en riesgo debido a una mala experiencia de compra.
+Se utilizó tabla hecha con WITH CTE que consolida los datos con un INNER JOIN entre la tablas order_reviews_dataset y orders_items_dataset y filtrando los puntajes críticos, también se utilizó una subconsulta para obtener el total de ventas de la empresa y luego calcular peso porcentual (ROUND) para ver que proporción del dinero del negocio está en riesgo debido a una mala experiencia de compra.
 
 ```sql
 --Total de ingresos y porcentaje de productos con calificaciones bajas
@@ -323,7 +323,7 @@ Se recomienda analizar la causa raíz para identificar si el problema es logíst
 
 ### Pregunta #6: ¿Cuáles son los 3 productos que más se venden dentro de cada categoría de tamaño?
 
-Se utilizó WITH CTE donde se  unieron las tablas de `dim_product` y `orders_items_dataset` para sumar la facturación por artículo; luego, se aplicó la función de ventana RANK() particionada por el tamaño del producto para clasificar el rendimiento financiero de forma independiente dentro de cada grupo, filtrando finalmente los resultados con un WHERE Puesto_Ranking <= 3 para extraer únicamente los elementos top de cada segmento.
+Se utilizó WITH CTE donde se  unieron las tablas de dim_product y orders_items_dataset para sumar la facturación por artículo; luego, se aplicó la función de ventana RANK() particionada por el tamaño del producto para clasificar el rendimiento financiero de forma independiente dentro de cada grupo, filtrando finalmente los resultados con un WHERE Puesto_Ranking <= 3 para extraer únicamente los elementos top de cada segmento.
 
 ```sql
 --Top 3 productos mas vendidos dentro de cateogria tamaños
@@ -523,3 +523,11 @@ ORDER BY Total_en_riesgo DESC;
 Se visualiza que el grupo más afectado es el de Clientes Preferentes, concentrando 46.28% dle riesgo total  con 888 usuarios afectados y una facturación comprometida de 347,955.79 . En segundo lugar, el segmento de Clientes Básicos registra la mayor cantidad de personas afectadas (3,313 clientes) representando el 39.67% del impacto. Finalmente, aunque los Clientes VIP muestran el menor porcentaje global (14.05%), la pérdida potencial sigue siendo alarmante debido a su alto valor individual, acumulando 105,625.00 en riesgo con apenas 68 clientes afectados.
 
 Se recomienda rediseñar la prioridad de procesamiento de pedidos en almacén. Las ordenes de clientes Preferentes y Vip deben ser priorizados en el sistema de distribución para asegurar que sus entregas se mantengan en el rango de tiempo de entrega estimado para así aumentar la recurrencia de compra de los clientes con mayor valor de compra.
+
+### Conclusión
+
+- a
+
+- b
+
+

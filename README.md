@@ -4,10 +4,10 @@
 ## Descripción del Proyecto
 
 ### Contexto y Problemática
-_Una empresa líder de e-commerce con alto volumen de ventas presenta una fragmentación en sus datos (silos de información) entre las áreas de Operaciones, Finanzas y Servicio al Cliente. Actualmente, la gerencia carece de visibilidad integrada, impidiéndole medir el impacto directo de los retrasos logísticos en la satisfacción del cliente y cuantificar el riesgo financiero que estos retrasos representan para la retención de sus clientes_
+_Una empresa líder de e-commerce con alto volumen de ventas presenta una fragmentación en sus datos (silos de información) entre las áreas de Logística y Operaciones, Gestión Comercial (Ventas y Producto), y Servicio al Cliente. Actualmente, la gerencia carece de una visibilidad integrada, lo que le impide medir el impacto directo de los retrasos logísticos en la satisfacción del cliente, evaluar el rendimiento comercial de su catálogo por segmentos, y cuantificar el impacto financiero real que estos problemas operativos representan para la retención de sus clientes de mayor valor._
 
 ### Objetivo
-_Utilizar SQL dentro de SQL Server Management Studio (SSMS) para procesar y consolidar los datos operativos, comerciales y de experiencia de usuario. El propósito es transformar estos datos crudos en insights clave que permitan proporcionar recomendaciones estratégicas para optimizar los procesos de distribución, mitigar la fuga de clientes de alto valor y maximizar la rentabilidad del negocio_
+_Utilizar SQL dentro de SQL Server Management Studio (SSMS) para integrar y consolidar los datos aislados de las áreas de logística, comercial y servicio al cliente. El propósito es transformar estos datos crudos en insights clave que permitan proporcionar recomendaciones estratégicas para optimizar los procesos de distribución, mitigar la fuga de clientes de alto valor y proteger la rentabilidad del negocio._
 
 ## Estructura del Proyecto
 

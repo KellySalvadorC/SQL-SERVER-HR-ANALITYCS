@@ -4,7 +4,7 @@
 ## Descripción del Proyecto
 
 ### Contexto y Problemática
-_Una empresa líder de e-commerce con alto volumen de ventas presenta una fragmentación en sus datos (silos de información) entre las áreas de Operaciones, Finanzas y Servicio al Cliente. Actualmente, la gerencia carece de visibilidad integrada, impidiéndole medir el impacto directo de los retrasos logísticos en la satisfacción del cliente y cuantificar el riesgo financiero que estos retrasos representan para la retención de sus clientes VIP y Preferente_
+_Una empresa líder de e-commerce con alto volumen de ventas presenta una fragmentación en sus datos (silos de información) entre las áreas de Operaciones, Finanzas y Servicio al Cliente. Actualmente, la gerencia carece de visibilidad integrada, impidiéndole medir el impacto directo de los retrasos logísticos en la satisfacción del cliente y cuantificar el riesgo financiero que estos retrasos representan para la retención de sus clientes_
 
 ### Objetivo
 _Utilizar SQL dentro de SQL Server Management Studio (SSMS) para procesar y consolidar los datos operativos, comerciales y de experiencia de usuario. El propósito es transformar estos datos crudos en insights clave que permitan proporcionar recomendaciones estratégicas para optimizar los procesos de distribución, mitigar la fuga de clientes de alto valor y maximizar la rentabilidad del negocio_
@@ -407,6 +407,8 @@ _Tabla de clientes Vip con mayor gasto acumulado_
 
 El análisis revela una alta concentración de valor en el Top 10 de clientes VIP, cuyo consumo supera drásticamente el comportamiento del resto de su segmento. Se visualiza una gran diferencia entre el gasto de los 10 clientes y el gasto promedio de la categoría VIP que es de 1,627.59. También podemos ver que estaca de manera excepcional el cliente del primer puesto, quien registra un consumo de 13,440.00, posicionándose como el máximo histórico absoluto de la empresa y superando en más de 8 veces el promedio VIP, lo que evidencia la existencia de compradores altamente leales y rentables para el negocio.
 
+Se recomienda estructurar un plan de incentivos personalizados enfocado en la retención del Top 10 de clientes VIP. Las acciones deben priorizar la experiencia del usuario mediante beneficios comerciales futuros y un servicio logístico preferencial (despacho prioritario y gratuito), asegurando la lealtad a largo plazo de estos compradores altamente rentables para la compañía
+
 ### Pregunta #8: ¿Cómo se listan consecutivamente las experiencias de entrega de los clientes que sufrieron los mayores tiempos de demora en la empresa, y cuál fue el puntaje de reseña (review_score) asociado a estos pedidos críticos?
 
 Se usó la función de ventana ROW NUMBER() OVER(PARTITION BY ....) para enumerar y ordenar de forma consecutiva cada una de las experiencias de entrega de los clientes, agrupandolas de forma independiente por su puntaje de reseña y ordenándolas de mayor a menor según los días de retraso calculados con DATEDIFF.
@@ -450,7 +452,7 @@ ORDER BY
 
 _Tabla de pedidos con más dias de retraso en el tiempo de entrega_
 
-Se visualizan retrasos entre 112 y 188 dias. A nivel del comportamiento del cliente lal mayoria de estos pedidos terminaron en calificaciones de 1 estrella, confirmando que las demoras severas perjudican la experiencia de compra y conducen al rechazo total de la marca o producto por parte del cliente.
+Se visualizan retrasos entre 112 y 188 dias. A nivel del comportamiento del cliente la mayoria de estos pedidos terminaron en calificaciones de 1 estrella, confirmando que las demoras severas perjudican la experiencia de compra y conducen al rechazo total de la marca o producto por parte del cliente.
 
 Se recomienda urgentemente realizar auditorias por empresa de transporte y región geográfica para identificar que socios logísticos o rutas provocaron estos retrasos.
 

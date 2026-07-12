@@ -243,6 +243,7 @@ GROUP BY Rango_Tiempo_Entrega
 ORDER BY Porcentaje DESC
 ```
 ![Pregunta2](pictures/Pregunta2.png)
+
 _Tabla de porcentaje de ordenes según tiempo de entrega_
 
 Vemos que el mayor porcentaje del total de ordenes son las ordenes que llegan en un rango de 1 a 2 semanas (39.37%) siguiendole las que llegan en menos de una semana (31.86%) lo cual es un buen resultado. Sin embargo,existe un 4.45% de pedidos críticos que demoran más de un mes.

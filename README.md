@@ -182,7 +182,7 @@ customers_dataset, products_dataset y order_reviews_dataset aportan el contexto 
 Esta estructura relacional permite cruzar eficientemente variables operativas (fechas de entrega), financieras (precios) y de percepción (reseñas) a través de llaves primarias y foráneas (`order_id`, `product_id`, `customer_id`), asegurando la integridad de los datos en cada consulta analítica.
 
 ![ModelandoDatos](pictures/Modelando%20datos.png)
-
+_Diagrama Entidad-Relacíon de e-commerce_
 
 ## Análisis Exploratorio de Datos e Insights
 
@@ -209,6 +209,7 @@ SELECT
 FROM Resumen_Ventas_Reales;
 ```
 ![Pregunta1](pictures/Pregunta%201.png)
+_Tabla de Ingreso total, Total de pedidos y Ticket promedio_
 
 El ingreso total es 13,221,498.11 unidades monetarias, el total de pedidos 96478 y el ticket promedio es 137.04 u.m.
 
@@ -242,6 +243,7 @@ GROUP BY Rango_Tiempo_Entrega
 ORDER BY Porcentaje DESC
 ```
 ![Pregunta2](pictures/Pregunta2.png)
+_Tabla de porcentaje de ordenes según tiempo de entrega_
 
 Vemos que el mayor porcentaje del total de ordenes son las ordenes que llegan en un rango de 1 a 2 semanas (39.37%) siguiendole las que llegan en menos de una semana (31.86%) lo cual es un buen resultado. Sin embargo,existe un 4.45% de pedidos críticos que demoran más de un mes.
 
@@ -275,6 +277,7 @@ ORDER BY t.Ingresos_totales DESC;
 ```
 
 ![Pregunta3](pictures/pregunta3.png)
+_Tabla de productos que generan mayor cantidad de ingresos_
 
 El análisis del Top 5 de productos con mayores ingresos acumulados revela un mercado altamente fragmentado. Ningún producto individual supera el 0.47% de participación sobre la venta total de la empresa.Esto demuestra que la estabilidad financiera del negocio no depende de "productos estrella" únicos, sino de un catálogo diversificado que genera volumen de manera distribuida.
 

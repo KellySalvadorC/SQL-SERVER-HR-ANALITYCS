@@ -562,8 +562,8 @@ Se recomienda rediseñar la prioridad de procesamiento de pedidos en almacén. L
 
 ### Conclusión
 
-- a
+- El análisis proporciona información y recomendaciónes para mejorar el proceso de distribución, retener clientes de alto valor y aumentar la rentabilidad del negocio
 
-- b
+- 
 
 

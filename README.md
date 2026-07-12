@@ -1,5 +1,5 @@
 ![imagen de banner](pictures/baneer%20vertical.png)
-# Proyecto SQL: Análisis Integrado de Logística, Ventas y Experiencia del cliente en una empresa de E-commerce
+# Proyecto SQL: Análisis Integrado de Datos para la Optimización Operativa y Retención de Clientes en un E-commerce.
 
 ## Descripción del Proyecto
 

@@ -20,9 +20,21 @@ _Utilizar SQL dentro de SQL Server Management Studio (SSMS) para procesar y cons
 
 ## Sobre los Datos
 
-Los datos originales, junto con una explicación de cada columna, se pueden encontrar [aquí](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?resource=download&select=olist_orders_dataset.csv).
+Los datos originales, junto con una explicación de cada columna, se pueden encontrar [aquí](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?resource=download&select=olist_orders_dataset.csv). 
 
-El conjunto de datos incluye cinco tablas: orders_dataset(tabla de ordenes),orders_items_dataset(tabla d eitems del pedido) que abarcan información de las ordenes, productos,clientes, ventas y satisfacción del cliente,distribuidos en más de 99,000 registros por tabla  y 36 columnas en total 
+La base de datos original está compuesta por un ecosistema de 9 tablas, para este proyecto se seleccionó un subconjunto de 5 tablas clave, las cuales contienen la información esencial para el análisis de este proyecto.
+
+El conjunto de datos integra un total de 36 columnas distribuidas en las siguientes cinco tablas:
+
+- customers_dataset (Tabla de clientes)
+
+- orders_dataset (Tabla de órdenes)
+
+- order_items_dataset (Tabla de detalles del pedido)
+
+- products_dataset (Tabla de productos)
+
+- order_reviews_dataset (Tabla de reseñas)
 
 ![tabla](pictures/Tabla.png)
 

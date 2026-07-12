@@ -562,8 +562,22 @@ Se recomienda rediseñar la prioridad de procesamiento de pedidos en almacén. L
 
 ### Conclusión
 
-- El análisis proporciona información y recomendaciónes para mejorar el proceso de distribución, retener clientes de alto valor y aumentar la rentabilidad del negocio
+- El análisis proporcionó información  para mejorar el proceso de distribución, retener clientes de alto valor y aumentar la rentabilidad del negocio
 
-- 
+- Se demostró una correlación directa y drástica entre los tiempos de entrega y la percepción de satisfacción del cliente.
+
+- Se comprobó que insatisfacción del cliente representa un riesgo financiero alarmante para la estabilidad del e-commerce, acumulando el 16.64% de los ingresos totales de la compañía.
+
+- Se identificó una asimetría y una alta concentración de valor en la cúspide de la cartera de clientes.
+
+- Se detectó que los ingresos de la empresa son muy estables porque las ventas no dependen de un solo producto estrella.
+
+### Recomendación General 
+
+La empresa debe transicionar hacia una gestión operativa segmentada que audite la cadena de suministro para eliminar los retrasos críticos, optimice el inventario de productos pequeños y medianos de alta rotación, y priorice el flujo logístico para clientes VIP y pedidos de alto valor, garantizando así la retención de los compradores más rentables y protegiendo la rentabilidad del negocio.
+
+
+
+
 
 

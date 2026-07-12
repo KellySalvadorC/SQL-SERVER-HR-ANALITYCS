@@ -188,7 +188,7 @@ _Diagrama Entidad-Relacíon de e-commerce_
 
 ### Pregunta #1: ¿Cuál es el ingreso total, el número de pedidos concretados y el ticket promedio global del negocio?
 
-Para responder a la consulta, estructuré el código usando una CTE (WITH) para mantenerlo limpio.Apliqué el filtro WHERE order_status = 'delivered', asegurando que el volumen de ventas y el ticket promedio se calculen solo sobre pedidos reales y concretados, excluyendo cancelaciones. Además, utilicé COUNT(DISTINCT order_id) para garantizar el conteo exacto de pedidos únicos, evitando duplicados cuando un mismo pedido contiene varios artículos.
+Para responder a la consulta, estructuré el código usando una CTE (WITH) para mantenerlo limpio. Apliqué el filtro WHERE order_status = 'delivered', asegurando que el volumen de ventas y el ticket promedio se calculen solo sobre pedidos concretados, excluyendo cancelaciones. Además, utilicé COUNT(DISTINCT order_id) para garantizar el conteo exacto de pedidos únicos, evitando duplicados cuando un mismo pedido contiene varios artículos.
 
 ```sql
 --Ingreso total, número de pedidos concretados y ticket promedio global
@@ -253,7 +253,7 @@ Se recomienda auditar la cadena de suministro, identificandose si el retraso se 
 
 ### Pregunta #3: ¿Cuáles son los 5 productos individuales (product_id) que generan la mayor cantidad de ingresos acumulados para el negocio, a qué categoría pertenecen y cuál es su porcentaje de participación sobre la venta total de la empresa?
 
-Utilicé una CTE combinada con la claúsula TOP 5 para los productos de mayor rendimiento financiero basados en el SUM(price).En la consulta principal utilicé una subconsulta en la división (SELECT SUM(price)...) para calcular de forma directa el peso porcentual de cada uno de estos 5 productos sobre la facturación global de la empresa, midiendo así su nivel de concentración en las ventas.
+Utilicé una CTE combinada con la claúsula TOP 5 para los productos de mayor rendimiento financiero basados en el SUM(price). En la consulta principal utilicé una subconsulta en la división (SELECT SUM(price)...) para calcular de forma directa el peso porcentual de cada uno de estos 5 productos sobre la facturación global de la empresa, midiendo así su nivel de concentración en las ventas.
 
 ```sql
 --Los 5 productos que generan mayor cantidad de ingresos
@@ -282,7 +282,7 @@ ORDER BY t.Ingresos_totales DESC;
 
 _Tabla de productos que generan mayor cantidad de ingresos_
 
-El análisis del Top 5 de productos con mayores ingresos acumulados revela un mercado altamente fragmentado. Ningún producto individual supera el 0.47% de participación sobre la venta total de la empresa.Esto demuestra que la estabilidad financiera del negocio no depende de "productos estrella" únicos, sino de un catálogo diversificado que genera volumen de manera distribuida.
+El análisis del Top 5 de productos con mayores ingresos acumulados revela un mercado altamente fragmentado. Ningún producto individual supera el 0.47% de participación sobre la venta total de la empresa. Esto demuestra que la estabilidad financiera del negocio no depende de "productos estrella" únicos, sino de un catálogo diversificado que genera volumen de manera distribuida.
 
 Se debe priorizar el control de stock de los productos de alta rotación , asegurando un stock de seguridad óptimo para evitar quiebres de inventario que afecten el flujo de caja, dado su alto volumen de salida.
 
@@ -292,6 +292,7 @@ Se debe priorizar el control de stock de los productos de alta rotación , asegu
 Se utilizó WITH (CTE) junto con la función DATEDIFF para clasificar los pedidos en 'A tiempo' o 'Retrasado' según su fecha estimada; posteriormente, mediante un INNER JOIN, se cruzaron estos datos con la tabla order_reviews_dataset para convertir el puntaje a entero (CONVERT) y calcular su promedio (AVG) agrupado por cada estado de entrega, permitiendo cuantificar la caída exacta en la calificación generada por los retrasos.
 
 ```sql
+-- Reseña promedio según entrega de pedido ('A tiempo', 'Retrasado')
 WITH Entrega AS(
 SELECT order_id,
        CASE
@@ -340,7 +341,7 @@ FROM Metricas;
 
 _Tabla de Ingresos de pedidos con calificaciones bajas_
 
-Los matriculados muestran un preocupante 16.64% de los ingresos totales de la empresa (equivalente a más de 2.26 millones) proviene de pedidos asociados a experiencias de compra negativas.
+Los ingresos de pedidos con reseñas bajas muestran un preocupante 16.64% de los ingresos totales de la empresa (equivalente a más de 2.26 millones).
 
 Se recomienda analizar la causa raíz para identificar si el problema es logístico o de calidad del proveedor.
 

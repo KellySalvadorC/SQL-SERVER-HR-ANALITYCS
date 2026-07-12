@@ -38,6 +38,8 @@ El conjunto de datos integra un total de 36 columnas distribuidas en las siguien
 
 ![tabla](pictures/Tabla.png)
 
+_Tabla de órdenes_
+
 ## Tareas
 
 En este análisis, ayudo a las áreas de Finanzas,Logística y Fidelización a responder lo siguiente:

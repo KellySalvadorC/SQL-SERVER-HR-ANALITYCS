@@ -560,7 +560,7 @@ Se visualiza que el grupo más afectado es el de Clientes Preferentes, concentra
 
 Se recomienda rediseñar la prioridad de procesamiento de pedidos en almacén. Las ordenes de clientes Preferentes y Vip deben ser priorizados en el sistema de distribución para asegurar que sus entregas se mantengan en el rango de tiempo de entrega estimado para así aumentar la recurrencia de compra de los clientes con mayor valor de compra.
 
-### Conclusiónes
+### Conclusiones
 
 - El análisis proporcionó información  para mejorar el proceso de distribución, retener clientes de alto valor y aumentar la rentabilidad del negocio
 

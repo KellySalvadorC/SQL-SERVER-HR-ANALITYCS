@@ -94,7 +94,7 @@ WITH (
 select * from customers_dataset
 
 ---------------------------------
--- CARGA ARTÍCULOS
+-- CARGA ITEMS
 ---------------------------------
 
 IF OBJECT_ID('orders_items_dataset', 'U') IS NOT NULL

@@ -476,6 +476,8 @@ Se recomienda aplicar estrategias para cualquier pedido que supere un valor alto
 
 ### Pregunta #10: ¿Cuál es el impacto financiero real de los retrasos logísticos severos en la retención de nuestros clientes más valiosos, calculando cuántos clientes básicos,clientes Preferentes y Clientes Vip han experimentado entregas críticas (más de un mes) y qué volumen de ingresos totales está en riesgo de perderse por problemas operativos?
 
+En esta consulta final, mi objetivo fue medir el impacto financiero real que tienen los retrasos logísticos severos en la retención de nuestros clientes según su nivel de valor (Básicos, Preferentes y VIP). Primero, utilicé expresiones de tabla comunes (WITH CTEs) y la función DATEDIFF para aislar los pedidos con entregas críticas de más de 30 días, vinculándolos con la identidad única de cada usuario mediante INNER JOIN. Luego  la combinación de agrupaciones por segmento y el uso de la función de ventana SUM(Total_en_riesgo) OVER(), la cual me permitió calcular en paralelo la facturación total en peligro y obtener el peso porcentual del impacto operativo sobre cada categoría de cliente, ordenando los resultados para visibilizar qué segmento concentra el mayor riesgo financiero para la empresa.
+
 ```sql
 --Impacto en retrasos logisticos segun segmentación de cliente
 
@@ -518,3 +520,6 @@ ORDER BY Total_en_riesgo DESC;
 
 ![Pregunta10](pictures/Pregunta%2010.png)
 
+Se visualiza que el grupo más afectado es el de Clientes Preferentes, concentrando 46.28% dle riesgo total  con 888 usuarios afectados y una facturación comprometida de 347,955.79 . En segundo lugar, el segmento de Clientes Básicos registra la mayor cantidad de personas afectadas (3,313 clientes) representando el 39.67% del impacto. Finalmente, aunque los Clientes VIP muestran el menor porcentaje global (14.05%), la pérdida potencial sigue siendo alarmante debido a su alto valor individual, acumulando 105,625.00 en riesgo con apenas 68 clientes afectados.
+
+Se recomienda rediseñar la prioridad de procesamiento de pedidos en almacén. Las ordenes de clientes Preferentes y Vip deben ser priorizados en el sistema de distribución para asegurar que sus entregas se mantengan en el rango de tiempo de entrega estimado para así aumentar la recurrencia de compra de los clientes con mayor valor de compra.

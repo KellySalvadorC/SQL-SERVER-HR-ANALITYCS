@@ -191,7 +191,7 @@ _Diagrama Entidad-Relacíon de e-commerce_
 Para responder a la consulta, estructuré el código usando una CTE (WITH) para mantenerlo limpio.Apliqué el filtro WHERE order_status = 'delivered', asegurando que el volumen de ventas y el ticket promedio se calculen solo sobre pedidos reales y concretados, excluyendo cancelaciones. Además, utilicé COUNT(DISTINCT order_id) para garantizar el conteo exacto de pedidos únicos, evitando duplicados cuando un mismo pedido contiene varios artículos.
 
 ```sql
---Volumen total de ventas, número de pedidos concretados y ticket promedio global
+--Ingreso total, número de pedidos concretados y ticket promedio global
 
 WITH Resumen_Ventas_Reales AS (
     SELECT 

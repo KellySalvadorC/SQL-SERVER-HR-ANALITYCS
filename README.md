@@ -37,7 +37,6 @@ El conjunto de datos integra un total de 36 columnas distribuidas en las siguien
 - order_reviews_dataset (Tabla de reseñas)
 
 ![tabla](pictures/Tabla.png)
-
 _Tabla de órdenes_
 
 ## Tareas

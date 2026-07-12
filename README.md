@@ -336,6 +336,7 @@ SELECT
 FROM Metricas;
 ```
 ![Pregunta 5](pictures/Pregunta%205.png)
+
 _Tabla de Ingresos de pedidos con calificaciones bajas_
 
 Los matriculados muestran un preocupante 16.64% de los ingresos totales de la empresa (equivalente a más de 2.26 millones) proviene de pedidos asociados a experiencias de compra negativas.
@@ -375,6 +376,8 @@ WHERE Puesto_Ranking <= 3
 ```
 ![Pregunta6](pictures/Pregunta%206.png)
 
+_Tabla de productos que más se venden según categoría de tamaño_
+
 El ranking muestra que los productos de tamaño Pequeño y Mediano lideran la recaudación del negocio, destacando un artículo pequeño con el mayor ingreso individual (63,885.00). Además, el segmento Mediano muestra un rendimiento sumamente competitivo y equilibrado, ya que sus tres primeros puestos superan individualmente los 47,000 en facturación. En contraste, la categoría Grande registra los ingresos más bajos en su Top 3, evidenciando que los productos de menores dimensiones son los principales motores financieros de la plataforma.
 
 Desde una perspectiva logística y comercial, se recomienda optimizar los espacios de almacenamiento priorizando el stock de alta rotación para productos pequeños y medianos, ya que maximizan la rentabilidad por metro cúbico.
@@ -397,6 +400,8 @@ SELECT TOP 10
    ORDER BY Total_gastado DESC
 ```
 ![Pregunta7](pictures/Pregunta%207.png)
+
+_Tabla de clientes Vip con mayor gasto acumulado_
 
 El análisis revela una alta concentración de valor en el Top 10 de clientes VIP, cuyo consumo supera drásticamente el comportamiento del resto de su segmento. Mientras que el gasto promedio de la categoría VIP es de 1,627.59, el cliente del décimo puesto gasta casi el triple (4,590.00). Destaca de manera excepcional el cliente del primer puesto, quien registra un consumo de 13,440.00, posicionándose como el máximo histórico absoluto de la empresa y superando en más de 8 veces el promedio VIP, lo que evidencia la existencia de compradores altamente leales y rentables para el negocio
 
@@ -440,6 +445,8 @@ ORDER BY
 ```
 
 ![Pregunta8](pictures/Pregunta%208.png)
+
+_Tabla de pedidos con más dias de retraso en el tiempo de entrega_
 
 Se visualizan retrasos entre 112 y 188 dias. A nivel del comportamiento del cliente lal mayoria de estos pedidos terminaron en calificaciones de 1 estrella, confirmando que las demoras severas perjudican la experiencia de compra y conducen al rechazo total de la marca o producto por parte del cliente.
 
@@ -489,6 +496,8 @@ FROM Clasificacion_tiempo_entrega
 ```
 
 ![Pregunta9](pictures/Pregunta%209.png)
+
+_Tabla de los 10 pedidos con mayor valor monetario_
 
 Podemos ver que todos los pedidos con mayor valor monetario se concentran en el rango de entrega de 1 a 2 semanas. Esto indica que el flujo logístico actual responde con eficiencia  ante transacciones de gran volumen financiero.
 
@@ -540,6 +549,8 @@ ORDER BY Total_en_riesgo DESC;
 ```
 
 ![Pregunta10](pictures/Pregunta%2010.png)
+
+_Tabla de ingresos en riesgo por segmento de cliente_
 
 Se visualiza que el grupo más afectado es el de Clientes Preferentes, concentrando 46.28% dle riesgo total  con 888 usuarios afectados y una facturación comprometida de 347,955.79 . En segundo lugar, el segmento de Clientes Básicos registra la mayor cantidad de personas afectadas (3,313 clientes) representando el 39.67% del impacto. Finalmente, aunque los Clientes VIP muestran el menor porcentaje global (14.05%), la pérdida potencial sigue siendo alarmante debido a su alto valor individual, acumulando 105,625.00 en riesgo con apenas 68 clientes afectados.
 

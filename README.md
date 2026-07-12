@@ -292,7 +292,7 @@ Se debe priorizar el control de stock de los productos de alta rotación , asegu
 Se utilizó WITH (CTE) junto con la función DATEDIFF para clasificar los pedidos en 'A tiempo' o 'Retrasado' según su fecha estimada; posteriormente, mediante un INNER JOIN, se cruzaron estos datos con la tabla order_reviews_dataset para convertir el puntaje a entero (CONVERT) y calcular su promedio (AVG) agrupado por cada estado de entrega, permitiendo cuantificar la caída exacta en la calificación generada por los retrasos.
 
 ```sql
--- Reseña promedio según entrega de pedido ('A tiempo', 'Retrasado')
+-- Reseña promedio según entrega de pedido ('A tiempo', 'Retrasado') 
 WITH Entrega AS(
 SELECT order_id,
        CASE
